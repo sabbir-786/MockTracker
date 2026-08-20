@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Bank Practice - Setup</title>
 
     <style>
@@ -29,10 +28,32 @@
         }
 
         /* =========================
+           FIXED NAVBAR
+        ========================== */
+        .navbar {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: 60px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #eeeeF5;
+            z-index: 1000;
+        }
+
+        .navbar h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #151a3a;
+        }
+
+        /* =========================
            HEADER
         ========================== */
         .header {
-            padding: 45px 24px 10px;
+            padding: 25px 24px 10px;
         }
         .header h1 {
             font-size: 30px;
@@ -107,7 +128,6 @@
         .check.two { top: 87px; }
         .check.three { top: 126px; }
 
-        /* Pencil */
         .pencil {
             width: 18px;
             height: 125px;
@@ -200,7 +220,7 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        .input-group input {
+        .input-group input, .time-input {
             width: 100%;
             height: 60px;
             border: 2px solid #e2e2ed;
@@ -213,17 +233,16 @@
             outline: none;
             transition: 0.2s;
         }
-        .input-group input:focus {
+        .input-group input:focus, .time-input:focus {
             border-color: #6035d6;
             background: #ffffff;
         }
-        /* Hide number arrows in webkit browsers */
-        .input-group input::-webkit-outer-spin-button,
-        .input-group input::-webkit-inner-spin-button {
+        input[type=number]::-webkit-outer-spin-button,
+        input[type=number]::-webkit-inner-spin-button {
             -webkit-appearance: none;
             margin: 0;
         }
-        .input-group input[type=number] {
+        input[type=number] {
             -moz-appearance: textfield;
         }
         
@@ -231,7 +250,7 @@
             font-size: 15px;
             color: #747895;
             font-weight: bold;
-            margin-top: 25px; /* visually align with inputs */
+            margin-top: 25px; 
         }
 
         .range-text {
@@ -296,13 +315,20 @@
             color: #555a77;
             font-size: 14px;
         }
+        
+        .time-input {
+            width: 80px;
+            height: 40px;
+            font-size: 16px;
+            border-radius: 10px;
+        }
 
         /* =========================
            START BUTTON
         ========================== */
         .start-btn {
             width: calc(100% - 36px);
-            margin: 10px 18px 0;
+            margin: 25px 18px 0;
             height: 60px;
             border: none;
             border-radius: 16px;
@@ -314,39 +340,15 @@
             box-shadow: 0 10px 25px rgba(96, 53, 214, 0.25);
             transition: 0.2s;
         }
-        .start-btn:hover {
-            background: #5128c5;
-        }
-        .start-btn:active {
-            transform: scale(0.98);
-        }
+        .start-btn:hover { background: #5128c5; }
+        .start-btn:active { transform: scale(0.98); }
 
-        /* =========================
-           PREVIOUS RESULT BUTTON
-        ========================== */
-        .result-btn {
-            width: calc(100% - 36px);
-            margin: 14px 18px 0;
-            height: 56px;
-            border: none;
-            border-radius: 15px;
-            background: #f1edff;
-            color: #6035d6;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        /* =========================
-           DESKTOP
-        ========================== */
         @media (min-width: 600px) {
-            body {
-                padding: 20px 0;
-            }
+            body { padding: 20px 0; }
             .app {
                 border-radius: 25px;
                 box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+                overflow: hidden; 
             }
         }
     </style>
@@ -354,6 +356,11 @@
 <body>
 
 <div class="app">
+
+    <!-- FIXED NAVBAR -->
+    <div class="navbar">
+        <h2>Bank Practice</h2>
+    </div>
 
     <!-- HEADER -->
     <div class="header">
@@ -384,28 +391,27 @@
             <div class="icon-box">#</div>
             <h2>Question Range</h2>
         </div>
-
         <p class="card-description">
             Enter the starting and ending question numbers you want to practice.
         </p>
 
-        <!-- NEW RANGE INPUTS -->
+        <!-- RANGE INPUTS -->
         <div class="range-selector">
             <div class="input-group">
                 <label for="startQ">Start</label>
-                <input type="number" id="startQ" min="1" value="203" oninput="calculateTotal()">
+                <input type="number" id="startQ" min="1" value="1" oninput="calculateTotal()">
             </div>
             
             <div class="divider">TO</div>
             
             <div class="input-group">
                 <label for="endQ">End</label>
-                <input type="number" id="endQ" min="1" value="314" oninput="calculateTotal()">
+                <input type="number" id="endQ" min="1" value="10" oninput="calculateTotal()">
             </div>
         </div>
 
         <div class="range-text" id="totalDisplay">
-            Total: 112 Questions
+            Total: 10 Questions
         </div>
     </div>
 
@@ -427,10 +433,13 @@
         <div class="setting-row">
             <div class="setting-left">
                 <div class="setting-icon">◷</div>
-                <span class="setting-name">Time Limit</span>
+                <label for="timeLimit" class="setting-name">Time Limit (Mins)</label>
             </div>
-            <span class="setting-value">No Time Limit</span>
+            
+            <!-- MANUAL TIMER INPUT -->
+            <input type="number" id="timeLimit" class="time-input" min="0" value="0" placeholder="0">
         </div>
+        <div style="text-align: right; font-size: 12px; color: #777b96; margin-top: -5px;">(0 = No limit)</div>
     </div>
 
     <!-- START -->
@@ -438,25 +447,14 @@
         🚀 &nbsp; Start Practice
     </button>
 
-    <!-- PREVIOUS RESULTS -->
-    <button class="result-btn" onclick="viewResults()">
-        📊 &nbsp; View Previous Results
-    </button>
-
 </div>
 
 <script>
-    /*
-    ==========================================
-        CALCULATE TOTAL QUESTIONS DYNAMICALLY
-    ==========================================
-    */
     function calculateTotal() {
         const startInput = document.getElementById("startQ").value;
         const endInput = document.getElementById("endQ").value;
         const totalDisplay = document.getElementById("totalDisplay");
 
-        // Convert to numbers, default to 0 if empty
         const start = parseInt(startInput) || 0;
         const end = parseInt(endInput) || 0;
 
@@ -466,23 +464,18 @@
             totalDisplay.style.color = "#6035d6";
         } else if (end < start && end !== 0) {
             totalDisplay.textContent = "End question must be ≥ Start";
-            totalDisplay.style.color = "#ef6b6b"; // red warning
+            totalDisplay.style.color = "#ef6b6b"; 
         } else {
             totalDisplay.textContent = "Total: 0 Questions";
             totalDisplay.style.color = "#747895";
         }
     }
 
-    /*
-    ==========================================
-        START PRACTICE
-    ==========================================
-    */
     function startPractice() {
         const start = parseInt(document.getElementById("startQ").value) || 0;
         const end = parseInt(document.getElementById("endQ").value) || 0;
+        const timeLimit = parseInt(document.getElementById("timeLimit").value) || 0;
 
-        // Validation Check
         if (start <= 0 || end <= 0) {
             alert("Please enter valid positive numbers for the range.");
             return;
@@ -494,28 +487,17 @@
 
         const total = (end - start) + 1;
 
-        /* Save range and total to localStorage */
         localStorage.setItem("startQuestion", start);
         localStorage.setItem("endQuestion", end);
         localStorage.setItem("totalQuestions", total);
+        localStorage.setItem("timeLimit", timeLimit);
 
-        /* Clear previous session answers */
         localStorage.removeItem("bankAnswers");
+        localStorage.removeItem("timeRemaining"); 
 
-        /* Open Screen 2 */
         window.location.href = "screen2.html";
     }
 
-    /*
-    ==========================================
-        PREVIOUS RESULTS
-    ==========================================
-    */
-    function viewResults() {
-        window.location.href = "screen3.html";
-    }
-
-    /* Initial Calculation on load */
     calculateTotal();
 </script>
 

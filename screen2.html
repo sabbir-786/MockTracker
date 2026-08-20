@@ -28,15 +28,48 @@
         }
 
         /* =================================
+           FIXED NAVBAR & TIMER
+        ================================= */
+        .navbar {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: 60px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Space between title and timer */
+            padding: 0 20px;
+            border-bottom: 1px solid #eeeeF5;
+            z-index: 1000;
+        }
+        .navbar h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #151a3a;
+        }
+        .timer-box {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #dc2626;
+            background: #fff0f0;
+            padding: 6px 12px;
+            border-radius: 12px;
+            border: 1px solid #ffd0d0;
+        }
+
+        /* =================================
            HEADER
         ================================= */
         .header {
             display: flex;
             align-items: center;
-            padding: 25px 20px 15px;
-            border-bottom: 1px solid #eeeeF5;
+            padding: 15px 20px 15px;
+            border-bottom: 1px dashed #eeeeF5;
         }
-
         .back-btn {
             width: 42px;
             height: 42px;
@@ -46,23 +79,19 @@
             color: #151a3a;
             cursor: pointer;
         }
-
         .title-area {
             flex: 1;
             margin-left: 8px;
         }
-
         .title {
             font-size: 21px;
             font-weight: 700;
         }
-
         .subtitle {
             margin-top: 5px;
             color: #747895;
             font-size: 14px;
         }
-
         .summary-btn {
             width: 45px;
             height: 45px;
@@ -84,22 +113,18 @@
             overflow: hidden;
             background: white;
         }
-
         .stats {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             padding: 20px 5px;
         }
-
         .stat {
             text-align: center;
             border-right: 1px solid #eeeeF5;
         }
-
         .stat:last-child {
             border-right: none;
         }
-
         .stat-icon {
             width: 38px;
             height: 38px;
@@ -111,23 +136,12 @@
             font-size: 20px;
             font-weight: bold;
         }
-
         .right-icon { background: #e3f8ea; color: #16a34a; }
         .wrong-icon { background: #ffe6e6; color: #dc2626; }
         .empty-icon { background: #f1f1f5; color: #777; }
         .progress-icon { background: #eee7ff; color: #6035d6; }
-
-        .stat-number {
-            margin-top: 8px;
-            font-size: 21px;
-            font-weight: 700;
-        }
-
-        .stat-label {
-            margin-top: 3px;
-            font-size: 12px;
-            color: #737793;
-        }
+        .stat-number { margin-top: 8px; font-size: 21px; font-weight: 700; }
+        .stat-label { margin-top: 3px; font-size: 12px; color: #737793; }
 
         /* =================================
            PROGRESS
@@ -136,14 +150,12 @@
             border-top: 1px solid #eeeeF5;
             padding: 17px 20px;
         }
-
         .progress-heading {
             display: flex;
             justify-content: space-between;
             font-size: 15px;
             font-weight: 600;
         }
-
         .progress-bar {
             width: 100%;
             height: 9px;
@@ -152,7 +164,6 @@
             margin-top: 13px;
             overflow: hidden;
         }
-
         .progress-fill {
             height: 100%;
             width: 0%;
@@ -167,7 +178,6 @@
         .questions {
             padding: 5px 16px;
         }
-
         .question-card {
             border: 1px solid #e6e6f0;
             border-radius: 15px;
@@ -176,8 +186,6 @@
             background: white;
             box-shadow: 0 4px 15px rgba(0,0,0,0.02);
         }
-
-        /* Top Row: Q Number + Radio Buttons */
         .q-top-row {
             display: flex;
             align-items: center;
@@ -186,19 +194,16 @@
             padding-bottom: 12px;
             border-bottom: 1px dashed #eeeeF5;
         }
-
         .question-number {
             font-size: 19px;
             font-weight: 700;
             color: #6035d6;
             min-width: 40px;
         }
-
         .radio-group {
             display: flex;
             gap: 8px;
         }
-
         .radio-label {
             display: flex;
             align-items: center;
@@ -214,24 +219,17 @@
             background: white;
             font-size: 14px;
         }
-
-        .radio-label input[type="radio"] {
-            display: none; /* hide actual radio */
-        }
-
+        .radio-label input[type="radio"] { display: none; }
         .radio-label.selected {
             background: #6035d6;
             border-color: #6035d6;
             color: white;
         }
-
-        /* Bottom Row: Right/Wrong Checks & Dropdown */
         .q-bottom-row {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-
         .check-btn {
             flex: 1;
             height: 42px;
@@ -248,24 +246,10 @@
             gap: 6px;
             transition: 0.2s;
         }
-
-        .check-btn.right-btn.active {
-            border-color: #20b45a;
-            background: #effcf4;
-            color: #149447;
-        }
-
-        .check-btn.wrong-btn.active {
-            border-color: #ef4444;
-            background: #fff0f0;
-            color: #dc2626;
-        }
-
-        .check-icon {
-            font-size: 16px;
-        }
-
-        /* Dropdown for Correct Answer */
+        .check-btn.right-btn.active { border-color: #20b45a; background: #effcf4; color: #149447; }
+        .check-btn.wrong-btn.active { border-color: #ef4444; background: #fff0f0; color: #dc2626; }
+        .check-icon { font-size: 16px; }
+        
         .correct-ans-dropdown {
             flex: 1;
             height: 42px;
@@ -276,20 +260,14 @@
             font-weight: 600;
             padding: 0 10px;
             outline: none;
-            display: none; /* hidden by default */
+            display: none; 
         }
-        
-        .correct-ans-dropdown.show {
-            display: block;
-        }
+        .correct-ans-dropdown.show { display: block; }
 
         /* =================================
            FINISH AREA
         ================================= */
-        .finish-area {
-            padding: 20px 16px 0;
-        }
-
+        .finish-area { padding: 20px 16px 0; }
         .finish-btn {
             width: 100%;
             height: 55px;
@@ -302,10 +280,7 @@
             cursor: pointer;
             box-shadow: 0 8px 20px rgba(96, 53, 214, 0.2);
         }
-
-        .finish-btn:active {
-            transform: scale(0.98);
-        }
+        .finish-btn:active { transform: scale(0.98); }
 
         /* =================================
            BOTTOM NAVIGATION
@@ -324,7 +299,6 @@
             gap: 10px;
             z-index: 10;
         }
-
         .nav-btn {
             flex: 1;
             height: 50px;
@@ -333,18 +307,8 @@
             font-weight: 700;
             cursor: pointer;
         }
-
-        .previous {
-            background: white;
-            color: #6035d6;
-            border: 2px solid #6035d6;
-        }
-
-        .next {
-            background: #6035d6;
-            color: white;
-            border: none;
-        }
+        .previous { background: white; color: #6035d6; border: 2px solid #6035d6; }
+        .next { background: #6035d6; color: white; border: none; }
 
         /* =================================
            DESKTOP
@@ -354,6 +318,7 @@
             .app {
                 border-radius: 25px;
                 box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+                overflow: hidden; /* Allows sticky nav to respect rounded corners */
             }
             .bottom { border-radius: 0 0 20px 20px; }
         }
@@ -363,6 +328,16 @@
 <body>
 
 <div class="app">
+
+    <!-- FIXED NAVBAR -->
+    <div class="navbar">
+        <h2>Bank Practice</h2>
+        
+        <!-- TIMER UI -->
+        <div class="timer-box" id="timerBox" style="display: none;">
+            ⏱ <span id="timerDisplay">00:00</span>
+        </div>
+    </div>
 
     <!-- HEADER -->
     <div class="header">
@@ -437,16 +412,18 @@
 
 <script>
     /* =========================================
-       GET RANGE FROM SCREEN 1
+       GET DATA FROM SCREEN 1
     ========================================== */
     const START_Q = parseInt(localStorage.getItem("startQuestion")) || 1;
-    const END_Q = parseInt(localStorage.getItem("endQuestion")) || 50;
+    const END_Q = parseInt(localStorage.getItem("endQuestion")) || 10;
     const TOTAL_QUESTIONS = (END_Q - START_Q) + 1;
+    
+    // Timer Setup
+    const timeLimitMins = parseInt(localStorage.getItem("timeLimit")) || 0;
+    let timeRemaining = parseInt(localStorage.getItem("timeRemaining"));
+    let timerInterval;
 
-    let currentQuestion = START_Q; // Initialize tracking
-
-    // Load previously saved answers
-    // Data structure: answers[203] = { userAnswer: 'A', result: 'wrong', correctAnswer: 'C' }
+    let currentQuestion = START_Q;
     let answers = JSON.parse(localStorage.getItem("bankAnswers")) || {};
 
     /* =========================================
@@ -457,6 +434,43 @@
     document.getElementById("progressTotal").textContent = TOTAL_QUESTIONS;
 
     /* =========================================
+       TIMER LOGIC
+    ========================================== */
+    if (timeLimitMins > 0) {
+        document.getElementById("timerBox").style.display = "flex";
+        
+        // If timeRemaining is not set yet, initialize it
+        if (isNaN(timeRemaining)) {
+            timeRemaining = timeLimitMins * 60; // Convert to seconds
+        }
+        startTimer();
+    }
+
+    function startTimer() {
+        updateTimerDisplay();
+        timerInterval = setInterval(() => {
+            timeRemaining--;
+            localStorage.setItem("timeRemaining", timeRemaining);
+            updateTimerDisplay();
+
+            // Auto-submit when time is up
+            if (timeRemaining <= 0) {
+                clearInterval(timerInterval);
+                alert("Time is up! Submitting your answers automatically.");
+                finishPractice();
+            }
+        }, 1000);
+    }
+
+    function updateTimerDisplay() {
+        if(timeRemaining < 0) timeRemaining = 0;
+        let m = Math.floor(timeRemaining / 60);
+        let s = timeRemaining % 60;
+        document.getElementById("timerDisplay").textContent = 
+            `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+    }
+
+    /* =========================================
        CREATE QUESTION CARDS DYNAMICALLY
     ========================================== */
     function createQuestions() {
@@ -464,17 +478,13 @@
         container.innerHTML = "";
         const optionsList = ["A", "B", "C", "D", "E"];
 
-        // Loop using the manual start and end numbers
         for (let i = START_Q; i <= END_Q; i++) {
-            
-            // Default blank state if empty
             const data = answers[i] || { userAnswer: null, result: null, correctAnswer: null };
 
             const card = document.createElement("div");
             card.className = "question-card";
             card.id = `question-${i}`;
 
-            // 1. Generate Radio Buttons HTML
             let radiosHTML = optionsList.map(opt => `
                 <label class="radio-label ${data.userAnswer === opt ? 'selected' : ''}">
                     <input type="radio" name="q${i}" value="${opt}" 
@@ -484,13 +494,11 @@
                 </label>
             `).join('');
 
-            // 2. Generate Dropdown Options HTML
             let dropdownHTML = `<option value="">Correct Ans</option>`;
             optionsList.forEach(opt => {
                 dropdownHTML += `<option value="${opt}" ${data.correctAnswer === opt ? 'selected' : ''}>Option ${opt}</option>`;
             });
 
-            // Assemble Card
             card.innerHTML = `
                 <div class="q-top-row">
                     <div class="question-number">Q${i}.</div>
@@ -521,31 +529,23 @@
         updateStats();
     }
 
-    /* =========================================
-       EVENT: SELECT USER ANSWER (A-E)
-    ========================================== */
     function setUserAnswer(question, selectedOption) {
         if (!answers[question]) answers[question] = { userAnswer: null, result: null, correctAnswer: null };
         answers[question].userAnswer = selectedOption;
         saveData();
-        createQuestions(); // Re-render to show active styling
+        createQuestions(); 
         scrollToQuestion(question);
     }
 
-    /* =========================================
-       EVENT: CLICK RIGHT OR WRONG
-    ========================================== */
     function setResult(question, resultType) {
         if (!answers[question]) answers[question] = { userAnswer: null, result: null, correctAnswer: null };
         
-        // If clicking the same result again, toggle it off (un-select)
         if (answers[question].result === resultType) {
             answers[question].result = null;
         } else {
             answers[question].result = resultType;
         }
 
-        // If 'Right', clear out the 'correctAnswer' dropdown value just in case
         if (answers[question].result === "right") {
             answers[question].correctAnswer = null;
         }
@@ -555,28 +555,18 @@
         scrollToQuestion(question);
     }
 
-    /* =========================================
-       EVENT: SELECT CORRECT ANSWER FROM DROPDOWN
-    ========================================== */
     function setCorrectAnswer(question, correctOpt) {
         if (!answers[question]) return;
         answers[question].correctAnswer = correctOpt;
         saveData();
     }
 
-    /* =========================================
-       SAVE ANSWERS
-    ========================================== */
     function saveData() {
         localStorage.setItem("bankAnswers", JSON.stringify(answers));
     }
 
-    /* =========================================
-       UPDATE STATISTICS
-    ========================================== */
     function updateStats() {
-        let right = 0;
-        let wrong = 0;
+        let right = 0, wrong = 0;
 
         for (let i = START_Q; i <= END_Q; i++) {
             if (!answers[i]) continue;
@@ -596,9 +586,6 @@
         document.getElementById("progressFill").style.width = percentage + "%";
     }
 
-    /* =========================================
-       NAVIGATION (NEXT / PREV / SCROLL)
-    ========================================== */
     function nextQuestion() {
         if (currentQuestion < END_Q) {
             currentQuestion++;
@@ -616,8 +603,8 @@
     function scrollToQuestion(question) {
         const element = document.getElementById(`question-${question}`);
         if (element) {
-            // Adjust scrolling to prevent the header/bottom bar from blocking the view
-            const yOffset = -90; 
+            // Offset for sticky navbar + minor padding
+            const yOffset = -80; 
             const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
             window.scrollTo({top: y, behavior: 'smooth'});
         }
@@ -632,13 +619,11 @@
     }
 
     function finishPractice() {
+        clearInterval(timerInterval); // Stop timer just in case
         saveData();
-        window.location.href = "screen3.html"; // Assume screen3 is your results page
+        window.location.href = "screen3.html"; 
     }
 
-    /* =========================================
-       INITIALIZE
-    ========================================== */
     createQuestions();
 
 </script>
