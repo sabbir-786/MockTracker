@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bank Practice - Result</title>
+    <title>Bank Practice - Grading</title>
 
     <style>
         * {
@@ -16,382 +16,174 @@
         body {
             background: #f7f7fb;
             color: #151a3a;
+            padding-top: 60px; 
+            padding-bottom: 30px; 
         }
+
+        /* FIXED NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #eeeeF5;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            z-index: 1000;
+        }
+        .navbar h2 { font-size: 18px; font-weight: 700; color: #151a3a; }
 
         .app {
             width: 100%;
             max-width: 480px;
-            min-height: 100vh;
+            min-height: calc(100vh - 60px);
             margin: auto;
             background: white;
             padding-bottom: 30px;
         }
 
-        /* =================================
-           HEADER
-        ================================= */
-        .header {
-            padding: 25px 20px 18px;
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid #eeeeF5;
-        }
-
-        .back-btn {
-            width: 42px;
-            height: 42px;
-            border: none;
-            background: transparent;
-            font-size: 32px;
-            color: #151a3a;
-            cursor: pointer;
-        }
-
-        .title-area {
-            flex: 1;
-            margin-left: 8px;
-        }
-
-        .title {
-            font-size: 21px;
-            font-weight: 700;
-        }
-
-        .subtitle {
-            margin-top: 5px;
-            color: #747895;
-            font-size: 14px;
-        }
-
-        /* =================================
-           RESULT HERO
-        ================================= */
+        /* SCOREBOARD HERO */
         .result-hero {
-            margin: 20px 16px;
+            margin: 15px 16px;
             padding: 25px 20px;
             border-radius: 22px;
             background: linear-gradient(135deg, #6035d6, #7653e3);
             color: white;
             text-align: center;
             box-shadow: 0 12px 30px rgba(96, 53, 214, 0.22);
+            position: sticky;
+            top: 75px;
+            z-index: 100;
         }
-
-        .result-icon {
-            width: 65px;
-            height: 65px;
-            margin: auto;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.18);
+        .result-title { font-size: 20px; font-weight: 700; margin-bottom: 15px; }
+        .score-grid {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 34px;
-            font-weight: bold;
+            justify-content: space-around;
         }
+        .score-item h3 { font-size: 26px; font-weight: 800; margin-bottom: 2px; }
+        .score-item p { font-size: 12px; opacity: 0.85; text-transform: uppercase; }
 
-        .result-title {
-            margin-top: 15px;
-            font-size: 25px;
-            font-weight: 700;
-        }
-
-        .result-message {
-            margin-top: 7px;
-            font-size: 14px;
-            opacity: 0.9;
-        }
-
-        .accuracy {
-            margin-top: 20px;
-            font-size: 45px;
-            font-weight: 800;
-        }
-
-        .accuracy-label {
-            font-size: 13px;
-            opacity: 0.85;
-        }
-
-        /* =================================
-           STAT CARDS
-        ================================= */
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            padding: 0 16px;
-            margin-top: 15px;
-        }
-
-        .stat-card {
-            padding: 15px 5px;
-            border-radius: 14px;
-            text-align: center;
-            border: 1px solid #e9e9f1;
-            background: white;
-        }
-
-        .stat-number {
-            font-size: 21px;
-            font-weight: 700;
-        }
-
-        .stat-label {
-            margin-top: 5px;
-            font-size: 11px;
-            color: #777b96;
-        }
-
-        .right-number { color: #16a34a; }
-        .wrong-number { color: #dc2626; }
-        .empty-number { color: #777; }
-        .total-number { color: #6035d6; }
-
-        /* =================================
-           REVIEW HEADER
-        ================================= */
-        .review-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 25px 18px 10px;
-        }
-
-        .review-title {
-            font-size: 19px;
-            font-weight: 700;
-        }
-
-        .review-count {
-            font-size: 13px;
-            color: #777b96;
-        }
-
-        /* =================================
-           REVIEW LIST
-        ================================= */
-        .review-list {
-            padding: 0 16px;
-        }
-
+        /* REVIEW LIST */
+        .review-list { padding: 10px 16px; }
+        
         .review-card {
             border: 1px solid #e6e6f0;
-            border-radius: 14px;
-            margin-top: 9px;
-            overflow: hidden;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            padding: 16px;
             background: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
         }
-
-        .review-row {
+        .q-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            padding: 14px;
-            gap: 10px;
+            border-bottom: 1px dashed #eeeeF5;
+            padding-bottom: 12px;
+            margin-bottom: 12px;
         }
-
-        .review-number {
-            width: 32px;
-            font-size: 18px;
-            font-weight: 700;
-            color: #6035d6;
-            text-align: center;
-        }
-
-        .status {
-            flex: 1;
+        .q-number { font-size: 18px; font-weight: 700; color: #6035d6; }
+        .user-answer {
             font-size: 14px;
             font-weight: 600;
+            background: #f0ebff;
+            color: #6035d6;
+            padding: 6px 14px;
+            border-radius: 8px;
         }
+        .user-answer.unattempted { background: #f1f1f5; color: #777; }
 
-        .right-status { color: #159447; }
-        .wrong-status { color: #dc2626; }
-        .unattempted-status { color: #777b96; }
-
-        .badges-container {
+        /* CHECKING BUTTONS */
+        .q-bottom-row {
             display: flex;
-            gap: 6px;
+            align-items: center;
+            gap: 10px;
         }
-
-        .option-badge {
-            min-width: 38px;
-            height: 38px;
+        .check-btn {
+            flex: 1;
+            height: 42px;
+            border: 1px solid #d2d3df;
+            background: white;
+            color: #737793;
             border-radius: 9px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            font-size: 15px;
+            gap: 6px;
+            transition: 0.2s;
         }
-
-        .wrong-option {
-            background: #fff0f0;
-            color: #dc2626;
-            border: 1px solid #ffd0d0;
-        }
-
-        .right-option {
-            background: #effcf4;
-            color: #159447;
-            border: 1px solid #c9efd8;
-        }
-
-        .empty-option {
-            background: #f4f4f7;
-            color: #777;
-            border: 1px solid #e5e5eb;
-        }
+        .check-btn.right-btn.active { border-color: #20b45a; background: #effcf4; color: #149447; }
+        .check-btn.wrong-btn.active { border-color: #ef4444; background: #fff0f0; color: #dc2626; }
         
-        .badge-hint {
-            font-size: 10px;
-            color: #a3a6b8;
-            margin-bottom: 2px;
-            text-align: center;
+        .correct-ans-dropdown {
+            flex: 1;
+            height: 42px;
+            border: 1px solid #ef4444;
+            border-radius: 9px;
+            background: #fffcfc;
+            color: #dc2626;
+            font-weight: 600;
+            padding: 0 10px;
+            outline: none;
+            display: none; 
         }
+        .correct-ans-dropdown.show { display: block; }
 
-        /* =================================
-           SUMMARY BAR
-        ================================= */
-        .summary-box {
-            margin: 20px 16px;
-            padding: 18px;
-            border-radius: 16px;
-            background: #f5f2ff;
-            border: 1px solid #e6ddff;
-        }
+        /* BUTTONS */
+        .buttons { padding: 10px 16px 30px; display: flex; flex-direction: column; gap: 12px; }
+        .button { width: 100%; height: 54px; border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer; }
+        .new-practice { background: #6035d6; color: white; border: none; box-shadow: 0 8px 20px rgba(96,53,214,0.2); }
+        .back-sheet { background: white; color: #6035d6; border: 2px solid #6035d6; }
 
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 7px 0;
-            font-size: 14px;
-        }
-
-        .summary-row strong {
-            color: #6035d6;
-        }
-
-        /* =================================
-           BUTTONS
-        ================================= */
-        .buttons {
-            padding: 10px 16px 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .button {
-            width: 100%;
-            height: 54px;
-            border-radius: 14px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .new-practice {
-            background: #6035d6;
-            color: white;
-            border: none;
-            box-shadow: 0 8px 20px rgba(96,53,214,0.2);
-        }
-
-        .back-sheet {
-            background: white;
-            color: #6035d6;
-            border: 2px solid #6035d6;
-        }
-
-        /* =================================
-           DESKTOP
-        ================================= */
         @media (min-width: 600px) {
-            body { padding: 20px 0; }
-            .app {
-                border-radius: 25px;
-                box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-            }
+            body { padding-top: 80px; }
+            .app { border-radius: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); overflow: hidden; margin-bottom: 40px;}
         }
     </style>
 </head>
-
 <body>
+
+<div class="navbar">
+    <h2>Check Your Answers</h2>
+</div>
 
 <div class="app">
 
-    <!-- HEADER -->
-    <div class="header">
-        <button class="back-btn" onclick="goBack()">‹</button>
-        <div class="title-area">
-            <div class="title">Practice Result</div>
-            <div class="subtitle" id="rangeSubtitle">Answer Review</div>
-        </div>
-    </div>
-
-    <!-- RESULT HERO -->
+    <!-- LIVE SCOREBOARD -->
     <div class="result-hero">
-        <div class="result-icon">✓</div>
-        <div class="result-title">Practice Completed</div>
-        <div class="result-message">Here is your practice performance</div>
-        <div class="accuracy" id="accuracy">0%</div>
-        <div class="accuracy-label">ACCURACY</div>
-    </div>
-
-    <!-- STATISTICS -->
-    <div class="stats">
-        <div class="stat-card">
-            <div class="stat-number total-number" id="totalCount">0</div>
-            <div class="stat-label">Total</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number right-number" id="rightCount">0</div>
-            <div class="stat-label">Right</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number wrong-number" id="wrongCount">0</div>
-            <div class="stat-label">Wrong</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number empty-number" id="unattemptedCount">0</div>
-            <div class="stat-label">Unattempted</div>
+        <div class="result-title">Live Scoreboard</div>
+        <div class="score-grid">
+            <div class="score-item">
+                <h3 id="scoreRight">0</h3>
+                <p>Right</p>
+            </div>
+            <div class="score-item">
+                <h3 id="scoreWrong">0</h3>
+                <p>Wrong</p>
+            </div>
+            <div class="score-item">
+                <h3 id="scoreAccuracy">0%</h3>
+                <p>Accuracy</p>
+            </div>
         </div>
     </div>
 
-    <!-- REVIEW HEADER -->
-    <div class="review-header">
-        <div class="review-title">Answer Review</div>
-        <div class="review-count" id="reviewCount">0 Questions</div>
-    </div>
-
-    <!-- REVIEW LIST -->
+    <!-- QUESTIONS TO GRADE -->
     <div class="review-list" id="reviewList">
         <!-- Rendered via JS -->
     </div>
 
-    <!-- SUMMARY -->
-    <div class="summary-box">
-        <div class="summary-row">
-            <span>Total Questions</span>
-            <strong id="summaryTotal">0</strong>
-        </div>
-        <div class="summary-row">
-            <span>Correct Answers</span>
-            <strong id="summaryRight">0</strong>
-        </div>
-        <div class="summary-row">
-            <span>Wrong Answers</span>
-            <strong id="summaryWrong">0</strong>
-        </div>
-        <div class="summary-row">
-            <span>Accuracy</span>
-            <strong id="summaryAccuracy">0%</strong>
-        </div>
-    </div>
-
-    <!-- BUTTONS -->
+    <!-- ACTION BUTTONS -->
     <div class="buttons">
         <button class="button new-practice" onclick="newPractice()">
-            + &nbsp; Start New Practice
+            + &nbsp; Finish & Start New Practice
         </button>
         <button class="button back-sheet" onclick="backToSheet()">
             ← &nbsp; Back to Answer Sheet
@@ -401,24 +193,98 @@
 </div>
 
 <script>
-    /* =========================================
-       LOAD DATA FROM SCREEN 1 & 2
-    ========================================== */
     const START_Q = parseInt(localStorage.getItem("startQuestion")) || 1;
-    const END_Q = parseInt(localStorage.getItem("endQuestion")) || 50;
+    const END_Q = parseInt(localStorage.getItem("endQuestion")) || 10;
     const TOTAL_QUESTIONS = (END_Q - START_Q) + 1;
 
     let answers = JSON.parse(localStorage.getItem("bankAnswers")) || {};
 
-    /* Update Subtitle with Range */
-    document.getElementById("rangeSubtitle").textContent = `Q. ${START_Q} to ${END_Q} Review`;
+    /* =========================================
+       RENDER REVIEW CARDS
+    ========================================== */
+    function createReviewCards() {
+        const container = document.getElementById("reviewList");
+        container.innerHTML = "";
+        const optionsList = ["A", "B", "C", "D", "E"];
+
+        for (let i = START_Q; i <= END_Q; i++) {
+            const data = answers[i] || { userAnswer: null, result: null, correctAnswer: null };
+            const card = document.createElement("div");
+            card.className = "review-card";
+            
+            // Format User Answer Text
+            let ansText = data.userAnswer ? `Your Answer: ${data.userAnswer}` : "Not Attempted";
+            let ansClass = data.userAnswer ? "" : "unattempted";
+
+            // Generate Dropdown Options
+            let dropdownHTML = `<option value="">Actual Ans</option>`;
+            optionsList.forEach(opt => {
+                dropdownHTML += `<option value="${opt}" ${data.correctAnswer === opt ? 'selected' : ''}>${opt}</option>`;
+            });
+
+            card.innerHTML = `
+                <div class="q-header">
+                    <div class="q-number">Q${i}.</div>
+                    <div class="user-answer ${ansClass}">${ansText}</div>
+                </div>
+
+                <div class="q-bottom-row">
+                    <button class="check-btn right-btn ${data.result === 'right' ? 'active' : ''}" 
+                            onclick="setResult(${i}, 'right')">
+                        ✓ Right
+                    </button>
+
+                    <button class="check-btn wrong-btn ${data.result === 'wrong' ? 'active' : ''}" 
+                            onclick="setResult(${i}, 'wrong')">
+                        × Wrong
+                    </button>
+
+                    <select class="correct-ans-dropdown ${data.result === 'wrong' ? 'show' : ''}" 
+                            onchange="setCorrectAnswer(${i}, this.value)">
+                        ${dropdownHTML}
+                    </select>
+                </div>
+            `;
+            container.appendChild(card);
+        }
+        updateScoreboard();
+    }
 
     /* =========================================
-       CALCULATE RESULT
+       INTERACTION LOGIC
     ========================================== */
-    function calculateResult() {
-        let right = 0;
-        let wrong = 0;
+    function setResult(question, resultType) {
+        if (!answers[question]) answers[question] = { userAnswer: null, result: null, correctAnswer: null };
+        
+        if (answers[question].result === resultType) {
+            answers[question].result = null; // Uncheck
+        } else {
+            answers[question].result = resultType;
+        }
+
+        if (answers[question].result === "right") {
+            answers[question].correctAnswer = null; // Reset correct ans if right
+        }
+
+        saveData();
+        createReviewCards(); // Re-render to show UI updates immediately
+    }
+
+    function setCorrectAnswer(question, correctOpt) {
+        if (!answers[question]) return;
+        answers[question].correctAnswer = correctOpt;
+        saveData();
+    }
+
+    function saveData() {
+        localStorage.setItem("bankAnswers", JSON.stringify(answers));
+    }
+
+    /* =========================================
+       UPDATE LIVE SCOREBOARD
+    ========================================== */
+    function updateScoreboard() {
+        let right = 0, wrong = 0;
 
         for (let i = START_Q; i <= END_Q; i++) {
             if (!answers[i]) continue;
@@ -427,114 +293,14 @@
         }
 
         const completed = right + wrong;
-        const unattempted = TOTAL_QUESTIONS - completed;
-        
         let accuracy = 0;
         if (completed > 0) {
             accuracy = Math.round((right / completed) * 100);
         }
 
-        return {
-            total: TOTAL_QUESTIONS,
-            right: right,
-            wrong: wrong,
-            unattempted: unattempted,
-            completed: completed,
-            accuracy: accuracy
-        };
-    }
-
-    /* =========================================
-       DISPLAY RESULT
-    ========================================== */
-    function displayResult() {
-        const result = calculateResult();
-
-        // Hero
-        document.getElementById("accuracy").textContent = result.accuracy + "%";
-
-        // Statistics
-        document.getElementById("totalCount").textContent = result.total;
-        document.getElementById("rightCount").textContent = result.right;
-        document.getElementById("wrongCount").textContent = result.wrong;
-        document.getElementById("unattemptedCount").textContent = result.unattempted;
-        document.getElementById("reviewCount").textContent = result.total + " Questions";
-
-        // Summary Box
-        document.getElementById("summaryTotal").textContent = result.total;
-        document.getElementById("summaryRight").textContent = result.right;
-        document.getElementById("summaryWrong").textContent = result.wrong;
-        document.getElementById("summaryAccuracy").textContent = result.accuracy + "%";
-
-        // Generate Review List
-        createReviewList();
-    }
-
-    /* =========================================
-       CREATE ANSWER REVIEW
-    ========================================== */
-    function createReviewList() {
-        const container = document.getElementById("reviewList");
-        container.innerHTML = "";
-
-        // Loop using the manual start and end bounds
-        for (let i = START_Q; i <= END_Q; i++) {
-            const data = answers[i] || { result: null, userAnswer: null, correctAnswer: null };
-            
-            const card = document.createElement("div");
-            card.className = "review-card";
-
-            let statusText = "";
-            let statusClass = "";
-            let badgesHTML = "";
-
-            if (data.result === "right") {
-                // RIGHT ANSWER
-                statusText = "✓ Right";
-                statusClass = "right-status";
-                badgesHTML = `
-                    <div class="option-badge right-option" title="Your Answer">
-                        ${data.userAnswer || "✓"}
-                    </div>
-                `;
-            } else if (data.result === "wrong") {
-                // WRONG ANSWER
-                statusText = "× Wrong";
-                statusClass = "wrong-status";
-                
-                // Show dual badges: User Answer (Red) & Correct Answer (Green)
-                const userAns = data.userAnswer || "—";
-                const correctAns = data.correctAnswer || "?";
-
-                badgesHTML = `
-                    <div class="badges-container">
-                        <div>
-                            <div class="badge-hint">You</div>
-                            <div class="option-badge wrong-option">${userAns}</div>
-                        </div>
-                        <div>
-                            <div class="badge-hint">Ans</div>
-                            <div class="option-badge right-option">${correctAns}</div>
-                        </div>
-                    </div>
-                `;
-            } else {
-                // UNATTEMPTED
-                statusText = "Unattempted";
-                statusClass = "unattempted-status";
-                badgesHTML = `<div class="option-badge empty-option">—</div>`;
-            }
-
-            card.innerHTML = `
-                <div class="review-row">
-                    <div class="review-number">${i}</div>
-                    <div class="status ${statusClass}">${statusText}</div>
-                    ${badgesHTML}
-                </div>
-            `;
-
-            container.appendChild(card);
-        }
+        document.getElementById("scoreRight").textContent = right;
+        document.getElementById("scoreWrong").textContent = wrong;
+        document.getElementById("scoreAccuracy").textContent = accuracy + "%";
     }
 
     /* =========================================
@@ -544,25 +310,16 @@
         window.location.href = "screen2.html";
     }
 
-    function goBack() {
-        window.location.href = "screen2.html";
-    }
-
     function newPractice() {
-        // Clear all stored data for a fresh start
         localStorage.removeItem("bankAnswers");
         localStorage.removeItem("startQuestion");
         localStorage.removeItem("endQuestion");
         localStorage.removeItem("totalQuestions");
-        
         window.location.href = "index.html";
     }
 
-    /* =========================================
-       START APP
-    ========================================== */
-    displayResult();
-
+    // Initialize
+    createReviewCards();
 </script>
 
 </body>

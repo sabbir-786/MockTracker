@@ -58,8 +58,6 @@
             border: 1px solid #c9efd8;
             transition: all 0.3s ease;
         }
-
-        /* Overtime Timer (Red) */
         .timer-box.timer-overtime {
             color: #dc2626;
             background: #fff0f0;
@@ -109,16 +107,6 @@
             color: #747895;
             font-size: 14px;
         }
-        .summary-btn {
-            width: 45px;
-            height: 45px;
-            border: none;
-            background: #f0ebff;
-            color: #6035d6;
-            border-radius: 12px;
-            font-size: 21px;
-            cursor: pointer;
-        }
 
         /* =================================
            SUMMARY CARD
@@ -132,7 +120,7 @@
         }
         .stats {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             padding: 20px 5px;
         }
         .stat {
@@ -153,9 +141,8 @@
             font-size: 20px;
             font-weight: bold;
         }
-        .right-icon { background: #e3f8ea; color: #16a34a; }
-        .wrong-icon { background: #ffe6e6; color: #dc2626; }
-        .empty-icon { background: #f1f1f5; color: #777; }
+        .attempt-icon { background: #e3f8ea; color: #16a34a; }
+        .empty-icon { background: #ffe6e6; color: #dc2626; }
         .progress-icon { background: #eee7ff; color: #6035d6; }
         .stat-number { margin-top: 8px; font-size: 21px; font-weight: 700; }
         .stat-label { margin-top: 3px; font-size: 12px; color: #737793; }
@@ -202,14 +189,9 @@
             padding: 16px;
             background: white;
             box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-        }
-        .q-top-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 15px;
-            padding-bottom: 12px;
-            border-bottom: 1px dashed #eeeeF5;
         }
         .question-number {
             font-size: 19px;
@@ -242,44 +224,6 @@
             border-color: #6035d6;
             color: white;
         }
-        .q-bottom-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .check-btn {
-            flex: 1;
-            height: 42px;
-            border: 1px solid #d2d3df;
-            background: white;
-            color: #737793;
-            border-radius: 9px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: 0.2s;
-        }
-        .check-btn.right-btn.active { border-color: #20b45a; background: #effcf4; color: #149447; }
-        .check-btn.wrong-btn.active { border-color: #ef4444; background: #fff0f0; color: #dc2626; }
-        .check-icon { font-size: 16px; }
-        
-        .correct-ans-dropdown {
-            flex: 1;
-            height: 42px;
-            border: 1px solid #ef4444;
-            border-radius: 9px;
-            background: #fffcfc;
-            color: #dc2626;
-            font-weight: 600;
-            padding: 0 10px;
-            outline: none;
-            display: none; 
-        }
-        .correct-ans-dropdown.show { display: block; }
 
         /* =================================
            FINISH AREA
@@ -327,9 +271,6 @@
         .previous { background: white; color: #6035d6; border: 2px solid #6035d6; }
         .next { background: #6035d6; color: white; border: none; }
 
-        /* =================================
-           DESKTOP
-        ================================= */
         @media (min-width: 600px) {
             body { padding-top: 80px; }
             .app {
@@ -341,45 +282,34 @@
         }
     </style>
 </head>
-
 <body>
 
-<!-- FIXED NAVBAR OUTSIDE OF APP -->
 <div class="navbar">
     <h2>Bank Practice</h2>
-    
-    <!-- TIMER UI -->
     <div class="timer-box" id="timerBox" style="display: none;">
         ⏱ <span id="timerDisplay">00:00</span>
     </div>
 </div>
 
 <div class="app">
-    <!-- HEADER -->
     <div class="header">
         <button class="back-btn" onclick="goBack()">‹</button>
         <div class="title-area">
-            <div class="title">Practice Session</div>
+            <div class="title">Select Answers</div>
             <div class="subtitle">
                 <span id="rangeDisplay">Q. 1 - 50</span> 
                 (<span id="totalQuestions">50</span> Questions)
             </div>
         </div>
-        <button class="summary-btn" onclick="showSummary()">☷</button>
     </div>
 
     <!-- SUMMARY -->
     <div class="summary">
         <div class="stats">
             <div class="stat">
-                <div class="stat-icon right-icon">✓</div>
-                <div class="stat-number" id="rightCount">0</div>
-                <div class="stat-label">Right</div>
-            </div>
-            <div class="stat">
-                <div class="stat-icon wrong-icon">×</div>
-                <div class="stat-number" id="wrongCount">0</div>
-                <div class="stat-label">Wrong</div>
+                <div class="stat-icon attempt-icon">✓</div>
+                <div class="stat-number" id="attemptedCount">0</div>
+                <div class="stat-label">Attempted</div>
             </div>
             <div class="stat">
                 <div class="stat-icon empty-icon">−</div>
@@ -415,7 +345,7 @@
     <!-- FINISH -->
     <div class="finish-area">
         <button class="finish-btn" onclick="finishPractice()">
-            ✓ &nbsp; Save & View Results
+            ✓ &nbsp; Submit & Start Grading
         </button>
     </div>
 </div>
@@ -427,14 +357,10 @@
 </div>
 
 <script>
-    /* =========================================
-       GET DATA FROM SCREEN 1
-    ========================================== */
     const START_Q = parseInt(localStorage.getItem("startQuestion")) || 1;
     const END_Q = parseInt(localStorage.getItem("endQuestion")) || 10;
     const TOTAL_QUESTIONS = (END_Q - START_Q) + 1;
     
-    // Timer Setup
     const timeLimitMins = parseInt(localStorage.getItem("timeLimit")) || 0;
     const timerMode = localStorage.getItem("timerMode") || "negative";
     let timeRemaining = parseInt(localStorage.getItem("timeRemaining"));
@@ -443,22 +369,14 @@
     let currentQuestion = START_Q;
     let answers = JSON.parse(localStorage.getItem("bankAnswers")) || {};
 
-    /* =========================================
-       UPDATE UI HEADERS
-    ========================================== */
     document.getElementById("rangeDisplay").textContent = `Q. ${START_Q} to ${END_Q}`;
     document.getElementById("totalQuestions").textContent = TOTAL_QUESTIONS;
     document.getElementById("progressTotal").textContent = TOTAL_QUESTIONS;
 
-    /* =========================================
-       TIMER LOGIC
-    ========================================== */
     if (timeLimitMins > 0) {
         document.getElementById("timerBox").style.display = "flex";
-        
-        // If timeRemaining is not set yet, initialize it
         if (isNaN(timeRemaining)) {
-            timeRemaining = timeLimitMins * 60; // Convert to seconds
+            timeRemaining = timeLimitMins * 60;
         }
         startTimer();
     }
@@ -470,7 +388,6 @@
             localStorage.setItem("timeRemaining", timeRemaining);
             updateTimerDisplay();
 
-            // Auto-submit functionality (if chosen in setup)
             if (timeRemaining <= 0 && timerMode === "autosubmit") {
                 clearInterval(timerInterval);
                 alert("Time is up! Submitting your answers automatically.");
@@ -482,31 +399,18 @@
     function updateTimerDisplay() {
         let isOvertime = timeRemaining < 0;
         let absTime = Math.abs(timeRemaining);
-        
         let m = Math.floor(absTime / 60);
         let s = absTime % 60;
-        
         let timeString = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
         
-        // Add minus sign if overtime
-        if (isOvertime) {
-            timeString = "-" + timeString;
-        }
-
+        if (isOvertime) timeString = "-" + timeString;
         document.getElementById("timerDisplay").textContent = timeString;
 
-        // Toggle Red/Green styling
         const timerBox = document.getElementById("timerBox");
-        if (isOvertime) {
-            timerBox.classList.add("timer-overtime");
-        } else {
-            timerBox.classList.remove("timer-overtime");
-        }
+        if (isOvertime) timerBox.classList.add("timer-overtime");
+        else timerBox.classList.remove("timer-overtime");
     }
 
-    /* =========================================
-       CREATE QUESTION CARDS DYNAMICALLY
-    ========================================== */
     function createQuestions() {
         const container = document.getElementById("questionsContainer");
         container.innerHTML = "";
@@ -528,34 +432,11 @@
                 </label>
             `).join('');
 
-            let dropdownHTML = `<option value="">Correct Ans</option>`;
-            optionsList.forEach(opt => {
-                dropdownHTML += `<option value="${opt}" ${data.correctAnswer === opt ? 'selected' : ''}>Option ${opt}</option>`;
-            });
-
+            // Simplified Card: Only Number and Radios
             card.innerHTML = `
-                <div class="q-top-row">
-                    <div class="question-number">Q${i}.</div>
-                    <div class="radio-group">
-                        ${radiosHTML}
-                    </div>
-                </div>
-
-                <div class="q-bottom-row">
-                    <button class="check-btn right-btn ${data.result === 'right' ? 'active' : ''}" 
-                            onclick="setResult(${i}, 'right')">
-                        <span class="check-icon">✓</span> Right
-                    </button>
-
-                    <button class="check-btn wrong-btn ${data.result === 'wrong' ? 'active' : ''}" 
-                            onclick="setResult(${i}, 'wrong')">
-                        <span class="check-icon">×</span> Wrong
-                    </button>
-
-                    <select class="correct-ans-dropdown ${data.result === 'wrong' ? 'show' : ''}" 
-                            onchange="setCorrectAnswer(${i}, this.value)">
-                        ${dropdownHTML}
-                    </select>
+                <div class="question-number">Q${i}.</div>
+                <div class="radio-group">
+                    ${radiosHTML}
                 </div>
             `;
             container.appendChild(card);
@@ -571,51 +452,22 @@
         scrollToQuestion(question);
     }
 
-    function setResult(question, resultType) {
-        if (!answers[question]) answers[question] = { userAnswer: null, result: null, correctAnswer: null };
-        
-        if (answers[question].result === resultType) {
-            answers[question].result = null;
-        } else {
-            answers[question].result = resultType;
-        }
-
-        if (answers[question].result === "right") {
-            answers[question].correctAnswer = null;
-        }
-
-        saveData();
-        createQuestions();
-        scrollToQuestion(question);
-    }
-
-    function setCorrectAnswer(question, correctOpt) {
-        if (!answers[question]) return;
-        answers[question].correctAnswer = correctOpt;
-        saveData();
-    }
-
     function saveData() {
         localStorage.setItem("bankAnswers", JSON.stringify(answers));
     }
 
     function updateStats() {
-        let right = 0, wrong = 0;
-
+        let attempted = 0;
         for (let i = START_Q; i <= END_Q; i++) {
-            if (!answers[i]) continue;
-            if (answers[i].result === "right") right++;
-            if (answers[i].result === "wrong") wrong++;
+            if (answers[i] && answers[i].userAnswer) attempted++;
         }
 
-        const completed = right + wrong;
-        const unattempted = TOTAL_QUESTIONS - completed;
-        const percentage = TOTAL_QUESTIONS === 0 ? 0 : Math.round((completed / TOTAL_QUESTIONS) * 100);
+        const unattempted = TOTAL_QUESTIONS - attempted;
+        const percentage = TOTAL_QUESTIONS === 0 ? 0 : Math.round((attempted / TOTAL_QUESTIONS) * 100);
 
-        document.getElementById("rightCount").textContent = right;
-        document.getElementById("wrongCount").textContent = wrong;
+        document.getElementById("attemptedCount").textContent = attempted;
         document.getElementById("unattemptedCount").textContent = unattempted;
-        document.getElementById("completedCount").textContent = completed;
+        document.getElementById("completedCount").textContent = attempted;
         document.getElementById("completedPercent").textContent = percentage + "%";
         document.getElementById("progressFill").style.width = percentage + "%";
     }
@@ -637,7 +489,6 @@
     function scrollToQuestion(question) {
         const element = document.getElementById(`question-${question}`);
         if (element) {
-            // Offset for sticky navbar + minor padding
             const yOffset = -80; 
             const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
             window.scrollTo({top: y, behavior: 'smooth'});
@@ -648,10 +499,6 @@
         window.location.href = "index.html";
     }
 
-    function showSummary() {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
     function finishPractice() {
         clearInterval(timerInterval); 
         saveData();
@@ -659,8 +506,6 @@
     }
 
     createQuestions();
-
 </script>
-
 </body>
 </html>
