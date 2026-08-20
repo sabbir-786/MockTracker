@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bank Practice - Setup</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f7f7fb;
+            color: #151a3a;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 480px;
+            min-height: 100vh;
+            margin: auto;
+            background: #ffffff;
+            padding-bottom: 30px;
+        }
+
+        /* =========================
+           HEADER
+        ========================== */
+        .header {
+            padding: 45px 24px 10px;
+        }
+        .header h1 {
+            font-size: 30px;
+            line-height: 1.2;
+            color: #151a3a;
+            margin-bottom: 12px;
+        }
+        .header p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #70748f;
+            max-width: 330px;
+        }
+
+        /* =========================
+           ILLUSTRATION
+        ========================== */
+        .illustration {
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .clipboard {
+            width: 130px;
+            height: 165px;
+            border: 7px solid #6035d6;
+            border-radius: 15px;
+            position: relative;
+            transform: rotate(5deg);
+            background: white;
+            box-shadow: 0 15px 35px rgba(96, 53, 214, 0.12);
+        }
+        .clip {
+            position: absolute;
+            top: -22px;
+            left: 38px;
+            width: 55px;
+            height: 30px;
+            background: #6035d6;
+            border-radius: 8px 8px 5px 5px;
+        }
+        .clip::after {
+            content: "";
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            top: 8px;
+            left: 21px;
+        }
+        .paper-line {
+            height: 7px;
+            background: #e7e1ff;
+            border-radius: 10px;
+            margin: 25px 15px 0 35px;
+        }
+        .paper-line.small {
+            width: 55px;
+            margin-top: 8px;
+        }
+        .check {
+            position: absolute;
+            left: 15px;
+            color: #6035d6;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .check.one { top: 48px; }
+        .check.two { top: 87px; }
+        .check.three { top: 126px; }
+
+        /* Pencil */
+        .pencil {
+            width: 18px;
+            height: 125px;
+            background: #6035d6;
+            position: absolute;
+            right: 100px;
+            bottom: 28px;
+            transform: rotate(35deg);
+            border-radius: 8px;
+        }
+        .pencil::before {
+            content: "";
+            position: absolute;
+            top: -15px;
+            left: 0;
+            border-left: 9px solid transparent;
+            border-right: 9px solid transparent;
+            border-bottom: 17px solid #f2c94c;
+        }
+        .pencil::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 18px;
+            height: 15px;
+            background: #ef6b6b;
+            border-radius: 0 0 8px 8px;
+        }
+
+        /* =========================
+           QUESTION CARD
+        ========================== */
+        .card {
+            margin: 5px 18px 20px;
+            padding: 22px;
+            background: white;
+            border-radius: 22px;
+            box-shadow: 0 8px 30px rgba(20, 25, 60, 0.07);
+            border: 1px solid #f0f0f5;
+        }
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .icon-box {
+            width: 43px;
+            height: 43px;
+            border-radius: 12px;
+            background: #eee8ff;
+            color: #6035d6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 23px;
+            font-weight: bold;
+        }
+        .card-title h2 {
+            font-size: 19px;
+        }
+        .card-description {
+            color: #747895;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 18px;
+        }
+
+        /* =========================
+           RANGE SELECTOR
+        ========================== */
+        .range-selector {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 5px 0;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        .input-group label {
+            font-size: 13px;
+            color: #777b96;
+            margin-bottom: 8px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .input-group input {
+            width: 100%;
+            height: 60px;
+            border: 2px solid #e2e2ed;
+            border-radius: 14px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: #6035d6;
+            background: #fdfdfd;
+            outline: none;
+            transition: 0.2s;
+        }
+        .input-group input:focus {
+            border-color: #6035d6;
+            background: #ffffff;
+        }
+        /* Hide number arrows in webkit browsers */
+        .input-group input::-webkit-outer-spin-button,
+        .input-group input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .input-group input[type=number] {
+            -moz-appearance: textfield;
+        }
+        
+        .divider {
+            font-size: 15px;
+            color: #747895;
+            font-weight: bold;
+            margin-top: 25px; /* visually align with inputs */
+        }
+
+        .range-text {
+            text-align: center;
+            color: #6035d6;
+            font-size: 15px;
+            font-weight: bold;
+            margin-top: 18px;
+            background: #f2eeff;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        /* =========================
+           SETTINGS
+        ========================== */
+        .settings-card {
+            margin-top: 18px;
+            padding: 20px;
+            background: white;
+            border-radius: 22px;
+            border: 1px solid #f0f0f5;
+            box-shadow: 0 8px 30px rgba(20, 25, 60, 0.05);
+        }
+        .settings-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .setting-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 13px 0;
+            border-bottom: 1px solid #eeeeF5;
+        }
+        .setting-row:last-child {
+            border-bottom: none;
+        }
+        .setting-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .setting-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #f2eeff;
+            color: #6035d6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .setting-name {
+            font-size: 15px;
+        }
+        .setting-value {
+            color: #555a77;
+            font-size: 14px;
+        }
+
+        /* =========================
+           START BUTTON
+        ========================== */
+        .start-btn {
+            width: calc(100% - 36px);
+            margin: 10px 18px 0;
+            height: 60px;
+            border: none;
+            border-radius: 16px;
+            background: #6035d6;
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(96, 53, 214, 0.25);
+            transition: 0.2s;
+        }
+        .start-btn:hover {
+            background: #5128c5;
+        }
+        .start-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* =========================
+           PREVIOUS RESULT BUTTON
+        ========================== */
+        .result-btn {
+            width: calc(100% - 36px);
+            margin: 14px 18px 0;
+            height: 56px;
+            border: none;
+            border-radius: 15px;
+            background: #f1edff;
+            color: #6035d6;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* =========================
+           DESKTOP
+        ========================== */
+        @media (min-width: 600px) {
+            body {
+                padding: 20px 0;
+            }
+            .app {
+                border-radius: 25px;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app">
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1>Practice Setup</h1>
+        <p>Set the range of questions and start your practice session.</p>
+    </div>
+
+    <!-- ILLUSTRATION -->
+    <div class="illustration">
+        <div class="clipboard">
+            <div class="clip"></div>
+            <div class="check one">✓</div>
+            <div class="check two">✓</div>
+            <div class="check three">✓</div>
+            <div class="paper-line"></div>
+            <div class="paper-line small"></div>
+            <div class="paper-line"></div>
+            <div class="paper-line small"></div>
+            <div class="paper-line"></div>
+            <div class="paper-line small"></div>
+        </div>
+        <div class="pencil"></div>
+    </div>
+
+    <!-- QUESTION COUNT CARD -->
+    <div class="card">
+        <div class="card-title">
+            <div class="icon-box">#</div>
+            <h2>Question Range</h2>
+        </div>
+
+        <p class="card-description">
+            Enter the starting and ending question numbers you want to practice.
+        </p>
+
+        <!-- NEW RANGE INPUTS -->
+        <div class="range-selector">
+            <div class="input-group">
+                <label for="startQ">Start</label>
+                <input type="number" id="startQ" min="1" value="203" oninput="calculateTotal()">
+            </div>
+            
+            <div class="divider">TO</div>
+            
+            <div class="input-group">
+                <label for="endQ">End</label>
+                <input type="number" id="endQ" min="1" value="314" oninput="calculateTotal()">
+            </div>
+        </div>
+
+        <div class="range-text" id="totalDisplay">
+            Total: 112 Questions
+        </div>
+    </div>
+
+    <!-- PRACTICE SETTINGS -->
+    <div class="card settings-card">
+        <div class="settings-title">
+            <div class="icon-box">⚙</div>
+            Practice Settings
+        </div>
+
+        <div class="setting-row">
+            <div class="setting-left">
+                <div class="setting-icon">🎯</div>
+                <span class="setting-name">Exam Type</span>
+            </div>
+            <span class="setting-value">Bank Exam Practice</span>
+        </div>
+
+        <div class="setting-row">
+            <div class="setting-left">
+                <div class="setting-icon">◷</div>
+                <span class="setting-name">Time Limit</span>
+            </div>
+            <span class="setting-value">No Time Limit</span>
+        </div>
+    </div>
+
+    <!-- START -->
+    <button class="start-btn" onclick="startPractice()">
+        🚀 &nbsp; Start Practice
+    </button>
+
+    <!-- PREVIOUS RESULTS -->
+    <button class="result-btn" onclick="viewResults()">
+        📊 &nbsp; View Previous Results
+    </button>
+
+</div>
+
+<script>
+    /*
+    ==========================================
+        CALCULATE TOTAL QUESTIONS DYNAMICALLY
+    ==========================================
+    */
+    function calculateTotal() {
+        const startInput = document.getElementById("startQ").value;
+        const endInput = document.getElementById("endQ").value;
+        const totalDisplay = document.getElementById("totalDisplay");
+
+        // Convert to numbers, default to 0 if empty
+        const start = parseInt(startInput) || 0;
+        const end = parseInt(endInput) || 0;
+
+        if (start > 0 && end > 0 && end >= start) {
+            const total = (end - start) + 1;
+            totalDisplay.textContent = `Total: ${total} Questions`;
+            totalDisplay.style.color = "#6035d6";
+        } else if (end < start && end !== 0) {
+            totalDisplay.textContent = "End question must be ≥ Start";
+            totalDisplay.style.color = "#ef6b6b"; // red warning
+        } else {
+            totalDisplay.textContent = "Total: 0 Questions";
+            totalDisplay.style.color = "#747895";
+        }
+    }
+
+    /*
+    ==========================================
+        START PRACTICE
+    ==========================================
+    */
+    function startPractice() {
+        const start = parseInt(document.getElementById("startQ").value) || 0;
+        const end = parseInt(document.getElementById("endQ").value) || 0;
+
+        // Validation Check
+        if (start <= 0 || end <= 0) {
+            alert("Please enter valid positive numbers for the range.");
+            return;
+        }
+        if (end < start) {
+            alert("The End question number cannot be smaller than the Start number.");
+            return;
+        }
+
+        const total = (end - start) + 1;
+
+        /* Save range and total to localStorage */
+        localStorage.setItem("startQuestion", start);
+        localStorage.setItem("endQuestion", end);
+        localStorage.setItem("totalQuestions", total);
+
+        /* Clear previous session answers */
+        localStorage.removeItem("bankAnswers");
+
+        /* Open Screen 2 */
+        window.location.href = "screen2.html";
+    }
+
+    /*
+    ==========================================
+        PREVIOUS RESULTS
+    ==========================================
+    */
+    function viewResults() {
+        window.location.href = "screen3.html";
+    }
+
+    /* Initial Calculation on load */
+    calculateTotal();
+</script>
+
+</body>
+</html>

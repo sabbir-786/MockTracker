@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Practice - Answer Sheet</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f7f7fb;
+            color: #151a3a;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 480px;
+            min-height: 100vh;
+            margin: auto;
+            background: white;
+            padding-bottom: 95px;
+        }
+
+        /* =================================
+           HEADER
+        ================================= */
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 25px 20px 15px;
+            border-bottom: 1px solid #eeeeF5;
+        }
+
+        .back-btn {
+            width: 42px;
+            height: 42px;
+            border: none;
+            background: transparent;
+            font-size: 32px;
+            color: #151a3a;
+            cursor: pointer;
+        }
+
+        .title-area {
+            flex: 1;
+            margin-left: 8px;
+        }
+
+        .title {
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            margin-top: 5px;
+            color: #747895;
+            font-size: 14px;
+        }
+
+        .summary-btn {
+            width: 45px;
+            height: 45px;
+            border: none;
+            background: #f0ebff;
+            color: #6035d6;
+            border-radius: 12px;
+            font-size: 21px;
+            cursor: pointer;
+        }
+
+        /* =================================
+           SUMMARY CARD
+        ================================= */
+        .summary {
+            margin: 15px 16px;
+            border: 1px solid #e7e7f1;
+            border-radius: 18px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            padding: 20px 5px;
+        }
+
+        .stat {
+            text-align: center;
+            border-right: 1px solid #eeeeF5;
+        }
+
+        .stat:last-child {
+            border-right: none;
+        }
+
+        .stat-icon {
+            width: 38px;
+            height: 38px;
+            margin: auto;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .right-icon { background: #e3f8ea; color: #16a34a; }
+        .wrong-icon { background: #ffe6e6; color: #dc2626; }
+        .empty-icon { background: #f1f1f5; color: #777; }
+        .progress-icon { background: #eee7ff; color: #6035d6; }
+
+        .stat-number {
+            margin-top: 8px;
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            margin-top: 3px;
+            font-size: 12px;
+            color: #737793;
+        }
+
+        /* =================================
+           PROGRESS
+        ================================= */
+        .progress-section {
+            border-top: 1px solid #eeeeF5;
+            padding: 17px 20px;
+        }
+
+        .progress-heading {
+            display: flex;
+            justify-content: space-between;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 9px;
+            background: #eeeeF6;
+            border-radius: 10px;
+            margin-top: 13px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #6035d6;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        /* =================================
+           QUESTIONS
+        ================================= */
+        .questions {
+            padding: 5px 16px;
+        }
+
+        .question-card {
+            border: 1px solid #e6e6f0;
+            border-radius: 15px;
+            margin-top: 12px;
+            padding: 16px;
+            background: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+
+        /* Top Row: Q Number + Radio Buttons */
+        .q-top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eeeeF5;
+        }
+
+        .question-number {
+            font-size: 19px;
+            font-weight: 700;
+            color: #6035d6;
+            min-width: 40px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid #d2d3df;
+            color: #737793;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            background: white;
+            font-size: 14px;
+        }
+
+        .radio-label input[type="radio"] {
+            display: none; /* hide actual radio */
+        }
+
+        .radio-label.selected {
+            background: #6035d6;
+            border-color: #6035d6;
+            color: white;
+        }
+
+        /* Bottom Row: Right/Wrong Checks & Dropdown */
+        .q-bottom-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .check-btn {
+            flex: 1;
+            height: 42px;
+            border: 1px solid #d2d3df;
+            background: white;
+            color: #737793;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+
+        .check-btn.right-btn.active {
+            border-color: #20b45a;
+            background: #effcf4;
+            color: #149447;
+        }
+
+        .check-btn.wrong-btn.active {
+            border-color: #ef4444;
+            background: #fff0f0;
+            color: #dc2626;
+        }
+
+        .check-icon {
+            font-size: 16px;
+        }
+
+        /* Dropdown for Correct Answer */
+        .correct-ans-dropdown {
+            flex: 1;
+            height: 42px;
+            border: 1px solid #ef4444;
+            border-radius: 9px;
+            background: #fffcfc;
+            color: #dc2626;
+            font-weight: 600;
+            padding: 0 10px;
+            outline: none;
+            display: none; /* hidden by default */
+        }
+        
+        .correct-ans-dropdown.show {
+            display: block;
+        }
+
+        /* =================================
+           FINISH AREA
+        ================================= */
+        .finish-area {
+            padding: 20px 16px 0;
+        }
+
+        .finish-btn {
+            width: 100%;
+            height: 55px;
+            border: none;
+            border-radius: 14px;
+            background: #6035d6;
+            color: white;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(96, 53, 214, 0.2);
+        }
+
+        .finish-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* =================================
+           BOTTOM NAVIGATION
+        ================================= */
+        .bottom {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            padding: 11px 16px;
+            background: white;
+            border-top: 1px solid #eeeeF5;
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .nav-btn {
+            flex: 1;
+            height: 50px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .previous {
+            background: white;
+            color: #6035d6;
+            border: 2px solid #6035d6;
+        }
+
+        .next {
+            background: #6035d6;
+            color: white;
+            border: none;
+        }
+
+        /* =================================
+           DESKTOP
+        ================================= */
+        @media (min-width: 600px) {
+            body { padding: 20px 0; }
+            .app {
+                border-radius: 25px;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            }
+            .bottom { border-radius: 0 0 20px 20px; }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- HEADER -->
+    <div class="header">
+        <button class="back-btn" onclick="goBack()">‹</button>
+        <div class="title-area">
+            <div class="title">Practice Session</div>
+            <div class="subtitle">
+                <span id="rangeDisplay">Q. 1 - 50</span> 
+                (<span id="totalQuestions">50</span> Questions)
+            </div>
+        </div>
+        <button class="summary-btn" onclick="showSummary()">☷</button>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="summary">
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-icon right-icon">✓</div>
+                <div class="stat-number" id="rightCount">0</div>
+                <div class="stat-label">Right</div>
+            </div>
+            <div class="stat">
+                <div class="stat-icon wrong-icon">×</div>
+                <div class="stat-number" id="wrongCount">0</div>
+                <div class="stat-label">Wrong</div>
+            </div>
+            <div class="stat">
+                <div class="stat-icon empty-icon">−</div>
+                <div class="stat-number" id="unattemptedCount">50</div>
+                <div class="stat-label">Unattempted</div>
+            </div>
+            <div class="stat">
+                <div class="stat-icon progress-icon">◔</div>
+                <div class="stat-number" id="completedPercent">0%</div>
+                <div class="stat-label">Completed</div>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-heading">
+                <span>Progress</span>
+                <span>
+                    <span id="completedCount">0</span> / 
+                    <span id="progressTotal">50</span>
+                </span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUESTIONS -->
+    <div class="questions" id="questionsContainer">
+        <!-- Generated via JS -->
+    </div>
+
+    <!-- FINISH -->
+    <div class="finish-area">
+        <button class="finish-btn" onclick="finishPractice()">
+            ✓ &nbsp; Save & View Results
+        </button>
+    </div>
+</div>
+
+<!-- BOTTOM NAVIGATION -->
+<div class="bottom">
+    <button class="nav-btn previous" onclick="previousQuestion()">‹ &nbsp; Previous</button>
+    <button class="nav-btn next" onclick="nextQuestion()">Next &nbsp; ›</button>
+</div>
+
+<script>
+    /* =========================================
+       GET RANGE FROM SCREEN 1
+    ========================================== */
+    const START_Q = parseInt(localStorage.getItem("startQuestion")) || 1;
+    const END_Q = parseInt(localStorage.getItem("endQuestion")) || 50;
+    const TOTAL_QUESTIONS = (END_Q - START_Q) + 1;
+
+    let currentQuestion = START_Q; // Initialize tracking
+
+    // Load previously saved answers
+    // Data structure: answers[203] = { userAnswer: 'A', result: 'wrong', correctAnswer: 'C' }
+    let answers = JSON.parse(localStorage.getItem("bankAnswers")) || {};
+
+    /* =========================================
+       UPDATE UI HEADERS
+    ========================================== */
+    document.getElementById("rangeDisplay").textContent = `Q. ${START_Q} to ${END_Q}`;
+    document.getElementById("totalQuestions").textContent = TOTAL_QUESTIONS;
+    document.getElementById("progressTotal").textContent = TOTAL_QUESTIONS;
+
+    /* =========================================
+       CREATE QUESTION CARDS DYNAMICALLY
+    ========================================== */
+    function createQuestions() {
+        const container = document.getElementById("questionsContainer");
+        container.innerHTML = "";
+        const optionsList = ["A", "B", "C", "D", "E"];
+
+        // Loop using the manual start and end numbers
+        for (let i = START_Q; i <= END_Q; i++) {
+            
+            // Default blank state if empty
+            const data = answers[i] || { userAnswer: null, result: null, correctAnswer: null };
+
+            const card = document.createElement("div");
+            card.className = "question-card";
+            card.id = `question-${i}`;
+
+            // 1. Generate Radio Buttons HTML
+            let radiosHTML = optionsList.map(opt => `
+                <label class="radio-label ${data.userAnswer === opt ? 'selected' : ''}">
+                    <input type="radio" name="q${i}" value="${opt}" 
+                           onchange="setUserAnswer(${i}, '${opt}')"
+                           ${data.userAnswer === opt ? 'checked' : ''}>
+                    ${opt}
+                </label>
+            `).join('');
+
+            // 2. Generate Dropdown Options HTML
+            let dropdownHTML = `<option value="">Correct Ans</option>`;
+            optionsList.forEach(opt => {
+                dropdownHTML += `<option value="${opt}" ${data.correctAnswer === opt ? 'selected' : ''}>Option ${opt}</option>`;
+            });
+
+            // Assemble Card
+            card.innerHTML = `
+                <div class="q-top-row">
+                    <div class="question-number">Q${i}.</div>
+                    <div class="radio-group">
+                        ${radiosHTML}
+                    </div>
+                </div>
+
+                <div class="q-bottom-row">
+                    <button class="check-btn right-btn ${data.result === 'right' ? 'active' : ''}" 
+                            onclick="setResult(${i}, 'right')">
+                        <span class="check-icon">✓</span> Right
+                    </button>
+
+                    <button class="check-btn wrong-btn ${data.result === 'wrong' ? 'active' : ''}" 
+                            onclick="setResult(${i}, 'wrong')">
+                        <span class="check-icon">×</span> Wrong
+                    </button>
+
+                    <select class="correct-ans-dropdown ${data.result === 'wrong' ? 'show' : ''}" 
+                            onchange="setCorrectAnswer(${i}, this.value)">
+                        ${dropdownHTML}
+                    </select>
+                </div>
+            `;
+            container.appendChild(card);
+        }
+        updateStats();
+    }
+
+    /* =========================================
+       EVENT: SELECT USER ANSWER (A-E)
+    ========================================== */
+    function setUserAnswer(question, selectedOption) {
+        if (!answers[question]) answers[question] = { userAnswer: null, result: null, correctAnswer: null };
+        answers[question].userAnswer = selectedOption;
+        saveData();
+        createQuestions(); // Re-render to show active styling
+        scrollToQuestion(question);
+    }
+
+    /* =========================================
+       EVENT: CLICK RIGHT OR WRONG
+    ========================================== */
+    function setResult(question, resultType) {
+        if (!answers[question]) answers[question] = { userAnswer: null, result: null, correctAnswer: null };
+        
+        // If clicking the same result again, toggle it off (un-select)
+        if (answers[question].result === resultType) {
+            answers[question].result = null;
+        } else {
+            answers[question].result = resultType;
+        }
+
+        // If 'Right', clear out the 'correctAnswer' dropdown value just in case
+        if (answers[question].result === "right") {
+            answers[question].correctAnswer = null;
+        }
+
+        saveData();
+        createQuestions();
+        scrollToQuestion(question);
+    }
+
+    /* =========================================
+       EVENT: SELECT CORRECT ANSWER FROM DROPDOWN
+    ========================================== */
+    function setCorrectAnswer(question, correctOpt) {
+        if (!answers[question]) return;
+        answers[question].correctAnswer = correctOpt;
+        saveData();
+    }
+
+    /* =========================================
+       SAVE ANSWERS
+    ========================================== */
+    function saveData() {
+        localStorage.setItem("bankAnswers", JSON.stringify(answers));
+    }
+
+    /* =========================================
+       UPDATE STATISTICS
+    ========================================== */
+    function updateStats() {
+        let right = 0;
+        let wrong = 0;
+
+        for (let i = START_Q; i <= END_Q; i++) {
+            if (!answers[i]) continue;
+            if (answers[i].result === "right") right++;
+            if (answers[i].result === "wrong") wrong++;
+        }
+
+        const completed = right + wrong;
+        const unattempted = TOTAL_QUESTIONS - completed;
+        const percentage = TOTAL_QUESTIONS === 0 ? 0 : Math.round((completed / TOTAL_QUESTIONS) * 100);
+
+        document.getElementById("rightCount").textContent = right;
+        document.getElementById("wrongCount").textContent = wrong;
+        document.getElementById("unattemptedCount").textContent = unattempted;
+        document.getElementById("completedCount").textContent = completed;
+        document.getElementById("completedPercent").textContent = percentage + "%";
+        document.getElementById("progressFill").style.width = percentage + "%";
+    }
+
+    /* =========================================
+       NAVIGATION (NEXT / PREV / SCROLL)
+    ========================================== */
+    function nextQuestion() {
+        if (currentQuestion < END_Q) {
+            currentQuestion++;
+            scrollToQuestion(currentQuestion);
+        }
+    }
+
+    function previousQuestion() {
+        if (currentQuestion > START_Q) {
+            currentQuestion--;
+            scrollToQuestion(currentQuestion);
+        }
+    }
+
+    function scrollToQuestion(question) {
+        const element = document.getElementById(`question-${question}`);
+        if (element) {
+            // Adjust scrolling to prevent the header/bottom bar from blocking the view
+            const yOffset = -90; 
+            const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            window.scrollTo({top: y, behavior: 'smooth'});
+        }
+    }
+
+    function goBack() {
+        window.location.href = "index.html";
+    }
+
+    function showSummary() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function finishPractice() {
+        saveData();
+        window.location.href = "screen3.html"; // Assume screen3 is your results page
+    }
+
+    /* =========================================
+       INITIALIZE
+    ========================================== */
+    createQuestions();
+
+</script>
+
+</body>
+</html>
