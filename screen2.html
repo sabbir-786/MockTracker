@@ -16,9 +16,8 @@
         body {
             background: #f7f7fb;
             color: #151a3a;
-            /* Padding to prevent content hiding behind fixed navbar */
             padding-top: 60px; 
-            padding-bottom: 95px; /* For bottom navigation */
+            padding-bottom: 95px; 
         }
 
         /* =================================
@@ -345,7 +344,7 @@
 
 <body>
 
-<!-- FIXED NAVBAR (OUTSIDE .app FOR FULL WIDTH) -->
+<!-- FIXED NAVBAR OUTSIDE OF APP -->
 <div class="navbar">
     <h2>Bank Practice</h2>
     
@@ -437,6 +436,7 @@
     
     // Timer Setup
     const timeLimitMins = parseInt(localStorage.getItem("timeLimit")) || 0;
+    const timerMode = localStorage.getItem("timerMode") || "negative";
     let timeRemaining = parseInt(localStorage.getItem("timeRemaining"));
     let timerInterval;
 
@@ -469,6 +469,13 @@
             timeRemaining--;
             localStorage.setItem("timeRemaining", timeRemaining);
             updateTimerDisplay();
+
+            // Auto-submit functionality (if chosen in setup)
+            if (timeRemaining <= 0 && timerMode === "autosubmit") {
+                clearInterval(timerInterval);
+                alert("Time is up! Submitting your answers automatically.");
+                finishPractice();
+            }
         }, 1000);
     }
 
@@ -646,7 +653,7 @@
     }
 
     function finishPractice() {
-        clearInterval(timerInterval); // Stop timer just in case
+        clearInterval(timerInterval); 
         saveData();
         window.location.href = "screen3.html"; 
     }

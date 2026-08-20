@@ -34,7 +34,7 @@
             align-items: center;
             justify-content: center;
             border-bottom: 1px solid #eeeeF5;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); /* Slight drop shadow */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
             z-index: 1000;
         }
 
@@ -240,7 +240,7 @@
             outline: none;
             transition: 0.2s;
         }
-        .input-group input:focus, .time-input:focus {
+        .input-group input:focus, .time-input:focus, .mode-select:focus {
             border-color: #6035d6;
             background: #ffffff;
         }
@@ -326,6 +326,20 @@
             border-radius: 10px;
         }
 
+        .mode-select {
+            height: 40px;
+            border-radius: 10px;
+            border: 2px solid #e2e2ed;
+            background: #fdfdfd;
+            font-size: 14px;
+            font-weight: 700;
+            color: #6035d6;
+            padding: 0 10px;
+            outline: none;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
         /* =========================
            START BUTTON
         ========================== */
@@ -351,12 +365,12 @@
         ========================== */
         @media (min-width: 600px) {
             body { 
-                padding-top: 80px; /* Extra room on desktop for visual appeal */
+                padding-top: 80px; 
             }
             .app {
                 border-radius: 25px;
                 box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-                margin-bottom: 40px; /* Space at the bottom on desktop */
+                margin-bottom: 40px; 
             }
         }
     </style>
@@ -437,16 +451,27 @@
             <span class="setting-value" style="color: #555a77; font-size: 14px;">Bank Exam Practice</span>
         </div>
 
+        <!-- TIME LIMIT -->
         <div class="setting-row">
             <div class="setting-left">
                 <div class="setting-icon">◷</div>
                 <label for="timeLimit" class="setting-name">Time Limit (Mins)</label>
             </div>
-            
-            <!-- MANUAL TIMER INPUT -->
             <input type="number" id="timeLimit" class="time-input" min="0" value="0" placeholder="0">
         </div>
-        <div style="text-align: right; font-size: 12px; color: #777b96; margin-top: -5px;">(0 = No limit)</div>
+        <div style="text-align: right; font-size: 12px; color: #777b96; margin-top: -5px; margin-bottom: 10px;">(0 = No limit)</div>
+
+        <!-- TIMER MODE -->
+        <div class="setting-row" style="border-top: 1px dashed #eeeeF5; padding-top: 16px;">
+            <div class="setting-left">
+                <div class="setting-icon">⏳</div>
+                <label for="timerMode" class="setting-name">When Time is Up</label>
+            </div>
+            <select id="timerMode" class="mode-select">
+                <option value="negative">Negative Timer</option>
+                <option value="autosubmit">Auto Submit</option>
+            </select>
+        </div>
     </div>
 
     <!-- START -->
@@ -481,6 +506,7 @@
         const start = parseInt(document.getElementById("startQ").value) || 0;
         const end = parseInt(document.getElementById("endQ").value) || 0;
         const timeLimit = parseInt(document.getElementById("timeLimit").value) || 0;
+        const timerMode = document.getElementById("timerMode").value;
 
         if (start <= 0 || end <= 0) {
             alert("Please enter valid positive numbers for the range.");
@@ -497,6 +523,7 @@
         localStorage.setItem("endQuestion", end);
         localStorage.setItem("totalQuestions", total);
         localStorage.setItem("timeLimit", timeLimit);
+        localStorage.setItem("timerMode", timerMode); // Saves user choice
 
         localStorage.removeItem("bankAnswers");
         localStorage.removeItem("timeRemaining"); 
