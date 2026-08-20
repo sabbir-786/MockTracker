@@ -243,6 +243,9 @@
             // Format User Answer Text
             let ansText = data.userAnswer ? `Your Answer: ${data.userAnswer}` : "Not Attempted";
             let ansClass = data.userAnswer ? "" : "unattempted";
+            
+            // Remove border bottom if unattempted (since there are no grading buttons below it)
+            let headerStyle = data.userAnswer ? "" : "border-bottom: none; margin-bottom: 0; padding-bottom: 0;";
 
             // Generate Dropdown Options
             let dropdownHTML = `<option value="">Actual Ans</option>`;
@@ -250,28 +253,35 @@
                 dropdownHTML += `<option value="${opt}" ${data.correctAnswer === opt ? 'selected' : ''}>${opt}</option>`;
             });
 
+            // Conditional HTML: Only render Right/Wrong buttons if the user attempted the question
+            let bottomRowHTML = "";
+            if (data.userAnswer) {
+                bottomRowHTML = `
+                    <div class="q-bottom-row">
+                        <button class="check-btn right-btn ${data.result === 'right' ? 'active' : ''}" 
+                                onclick="setResult(${i}, 'right')">
+                            ✓ Right
+                        </button>
+
+                        <button class="check-btn wrong-btn ${data.result === 'wrong' ? 'active' : ''}" 
+                                onclick="setResult(${i}, 'wrong')">
+                            × Wrong
+                        </button>
+
+                        <select class="correct-ans-dropdown ${data.result === 'wrong' ? 'show' : ''}" 
+                                onchange="setCorrectAnswer(${i}, this.value)">
+                            ${dropdownHTML}
+                        </select>
+                    </div>
+                `;
+            }
+
             card.innerHTML = `
-                <div class="q-header">
+                <div class="q-header" style="${headerStyle}">
                     <div class="q-number">Q${i}.</div>
                     <div class="user-answer ${ansClass}">${ansText}</div>
                 </div>
-
-                <div class="q-bottom-row">
-                    <button class="check-btn right-btn ${data.result === 'right' ? 'active' : ''}" 
-                            onclick="setResult(${i}, 'right')">
-                        ✓ Right
-                    </button>
-
-                    <button class="check-btn wrong-btn ${data.result === 'wrong' ? 'active' : ''}" 
-                            onclick="setResult(${i}, 'wrong')">
-                        × Wrong
-                    </button>
-
-                    <select class="correct-ans-dropdown ${data.result === 'wrong' ? 'show' : ''}" 
-                            onchange="setCorrectAnswer(${i}, this.value)">
-                        ${dropdownHTML}
-                    </select>
-                </div>
+                ${bottomRowHTML}
             `;
             container.appendChild(card);
         }
