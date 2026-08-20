@@ -53,7 +53,7 @@
             min-height: calc(100vh - 60px);
             margin: auto;
             background: #ffffff;
-            padding-bottom: 30px;
+            padding-bottom: 25px;
         }
 
         /* =========================
@@ -252,7 +252,7 @@
         input[type=number] {
             -moz-appearance: textfield;
         }
-        
+
         .divider {
             font-size: 15px;
             color: #747895;
@@ -318,7 +318,7 @@
         .setting-name {
             font-size: 15px;
         }
-        
+
         .time-input {
             width: 80px;
             height: 40px;
@@ -345,7 +345,7 @@
         ========================== */
         .start-btn {
             width: calc(100% - 36px);
-            margin: 25px 18px 0;
+            margin: 25px 18px 25px;
             height: 60px;
             border: none;
             border-radius: 16px;
@@ -359,6 +359,27 @@
         }
         .start-btn:hover { background: #5128c5; }
         .start-btn:active { transform: scale(0.98); }
+
+        /* =========================
+           FOOTER CREDIT
+        ========================== */
+        .footer-credit {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 13px;
+            color: #747895;
+            padding-bottom: 10px;
+        }
+        .footer-credit a {
+            color: #6035d6;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+        .footer-credit a:hover {
+            color: #5128c5;
+            text-decoration: underline;
+        }
 
         /* =========================
            DESKTOP RESPONSIVENESS
@@ -422,9 +443,9 @@
                 <label for="startQ">Start</label>
                 <input type="number" id="startQ" min="1" value="1" oninput="calculateTotal()">
             </div>
-            
+
             <div class="divider">TO</div>
-            
+
             <div class="input-group">
                 <label for="endQ">End</label>
                 <input type="number" id="endQ" min="1" value="10" oninput="calculateTotal()">
@@ -478,6 +499,11 @@
     <button class="start-btn" onclick="startPractice()">
         🚀 &nbsp; Start Practice
     </button>
+    
+    <!-- DEVELOPER CREDIT -->
+    <div class="footer-credit">
+        Developed by <a href="https://github.com/sabbir-786" target="_blank">Sabbir Ansari</a>
+    </div>
 </div>
 
 <script>
@@ -527,6 +553,7 @@
 
         localStorage.removeItem("bankAnswers");
         localStorage.removeItem("timeRemaining"); 
+        localStorage.removeItem("timeSpent"); // Ensure time resets for new practice
 
         window.location.href = "screen2.html";
     }
