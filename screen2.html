@@ -16,31 +16,27 @@
         body {
             background: #f7f7fb;
             color: #151a3a;
-        }
-
-        .app {
-            width: 100%;
-            max-width: 480px;
-            min-height: 100vh;
-            margin: auto;
-            background: white;
-            padding-bottom: 95px;
+            /* Padding to prevent content hiding behind fixed navbar */
+            padding-top: 60px; 
+            padding-bottom: 95px; /* For bottom navigation */
         }
 
         /* =================================
-           FIXED NAVBAR & TIMER
+           FIXED FULL-SCREEN NAVBAR & TIMER
         ================================= */
         .navbar {
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
             width: 100%;
             height: 60px;
             background: #ffffff;
             display: flex;
             align-items: center;
-            justify-content: space-between; /* Space between title and timer */
+            justify-content: space-between;
             padding: 0 20px;
             border-bottom: 1px solid #eeeeF5;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
             z-index: 1000;
         }
         .navbar h2 {
@@ -48,17 +44,39 @@
             font-weight: 700;
             color: #151a3a;
         }
+
+        /* Default Timer (Green) */
         .timer-box {
             display: flex;
             align-items: center;
             gap: 6px;
             font-size: 16px;
             font-weight: 700;
-            color: #dc2626;
-            background: #fff0f0;
+            color: #16a34a; 
+            background: #e3f8ea;
             padding: 6px 12px;
             border-radius: 12px;
+            border: 1px solid #c9efd8;
+            transition: all 0.3s ease;
+        }
+
+        /* Overtime Timer (Red) */
+        .timer-box.timer-overtime {
+            color: #dc2626;
+            background: #fff0f0;
             border: 1px solid #ffd0d0;
+        }
+
+        /* =================================
+           MAIN APP CONTAINER
+        ================================= */
+        .app {
+            width: 100%;
+            max-width: 480px;
+            min-height: calc(100vh - 60px);
+            margin: auto;
+            background: white;
+            padding-bottom: 30px;
         }
 
         /* =================================
@@ -314,11 +332,11 @@
            DESKTOP
         ================================= */
         @media (min-width: 600px) {
-            body { padding: 20px 0; }
+            body { padding-top: 80px; }
             .app {
                 border-radius: 25px;
                 box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-                overflow: hidden; /* Allows sticky nav to respect rounded corners */
+                overflow: hidden;
             }
             .bottom { border-radius: 0 0 20px 20px; }
         }
@@ -327,18 +345,17 @@
 
 <body>
 
-<div class="app">
-
-    <!-- FIXED NAVBAR -->
-    <div class="navbar">
-        <h2>Bank Practice</h2>
-        
-        <!-- TIMER UI -->
-        <div class="timer-box" id="timerBox" style="display: none;">
-            ⏱ <span id="timerDisplay">00:00</span>
-        </div>
+<!-- FIXED NAVBAR (OUTSIDE .app FOR FULL WIDTH) -->
+<div class="navbar">
+    <h2>Bank Practice</h2>
+    
+    <!-- TIMER UI -->
+    <div class="timer-box" id="timerBox" style="display: none;">
+        ⏱ <span id="timerDisplay">00:00</span>
     </div>
+</div>
 
+<div class="app">
     <!-- HEADER -->
     <div class="header">
         <button class="back-btn" onclick="goBack()">‹</button>
@@ -452,22 +469,32 @@
             timeRemaining--;
             localStorage.setItem("timeRemaining", timeRemaining);
             updateTimerDisplay();
-
-            // Auto-submit when time is up
-            if (timeRemaining <= 0) {
-                clearInterval(timerInterval);
-                alert("Time is up! Submitting your answers automatically.");
-                finishPractice();
-            }
         }, 1000);
     }
 
     function updateTimerDisplay() {
-        if(timeRemaining < 0) timeRemaining = 0;
-        let m = Math.floor(timeRemaining / 60);
-        let s = timeRemaining % 60;
-        document.getElementById("timerDisplay").textContent = 
-            `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        let isOvertime = timeRemaining < 0;
+        let absTime = Math.abs(timeRemaining);
+        
+        let m = Math.floor(absTime / 60);
+        let s = absTime % 60;
+        
+        let timeString = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        
+        // Add minus sign if overtime
+        if (isOvertime) {
+            timeString = "-" + timeString;
+        }
+
+        document.getElementById("timerDisplay").textContent = timeString;
+
+        // Toggle Red/Green styling
+        const timerBox = document.getElementById("timerBox");
+        if (isOvertime) {
+            timerBox.classList.add("timer-overtime");
+        } else {
+            timerBox.classList.remove("timer-overtime");
+        }
     }
 
     /* =========================================
