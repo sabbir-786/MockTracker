@@ -49,7 +49,7 @@
         /* SCOREBOARD HERO */
         .result-hero {
             margin: 15px 16px;
-            padding: 25px 20px;
+            padding: 20px 20px 25px;
             border-radius: 22px;
             background: linear-gradient(135deg, #6035d6, #7653e3);
             color: white;
@@ -59,6 +59,19 @@
             top: 75px;
             z-index: 100;
         }
+        
+        /* TIME TAKEN BADGE */
+        .time-taken {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
         .result-title { font-size: 20px; font-weight: 700; margin-bottom: 15px; }
         .score-grid {
             display: flex;
@@ -158,6 +171,7 @@
 
     <!-- LIVE SCOREBOARD -->
     <div class="result-hero">
+        <div class="time-taken" id="timeTakenDisplay">⏱ Time Taken: 0m 0s</div>
         <div class="result-title">Live Scoreboard</div>
         <div class="score-grid">
             <div class="score-item">
@@ -198,6 +212,20 @@
     const TOTAL_QUESTIONS = (END_Q - START_Q) + 1;
 
     let answers = JSON.parse(localStorage.getItem("bankAnswers")) || {};
+
+    /* =========================================
+       DISPLAY TIME TAKEN
+    ========================================== */
+    function displayTimeTaken() {
+        let timeSpent = parseInt(localStorage.getItem("timeSpent")) || 0;
+        let m = Math.floor(timeSpent / 60);
+        let s = timeSpent % 60;
+        
+        let timeText = `${m}m ${s}s`;
+        if (m === 0) timeText = `${s}s`; // Only show seconds if less than a minute
+        
+        document.getElementById("timeTakenDisplay").textContent = `⏱ Time Taken: ${timeText}`;
+    }
 
     /* =========================================
        RENDER REVIEW CARDS
@@ -257,17 +285,17 @@
         if (!answers[question]) answers[question] = { userAnswer: null, result: null, correctAnswer: null };
         
         if (answers[question].result === resultType) {
-            answers[question].result = null; // Uncheck
+            answers[question].result = null; 
         } else {
             answers[question].result = resultType;
         }
 
         if (answers[question].result === "right") {
-            answers[question].correctAnswer = null; // Reset correct ans if right
+            answers[question].correctAnswer = null; 
         }
 
         saveData();
-        createReviewCards(); // Re-render to show UI updates immediately
+        createReviewCards(); 
     }
 
     function setCorrectAnswer(question, correctOpt) {
@@ -280,9 +308,6 @@
         localStorage.setItem("bankAnswers", JSON.stringify(answers));
     }
 
-    /* =========================================
-       UPDATE LIVE SCOREBOARD
-    ========================================== */
     function updateScoreboard() {
         let right = 0, wrong = 0;
 
@@ -315,10 +340,13 @@
         localStorage.removeItem("startQuestion");
         localStorage.removeItem("endQuestion");
         localStorage.removeItem("totalQuestions");
+        localStorage.removeItem("timeSpent");
+        localStorage.removeItem("timeRemaining");
         window.location.href = "index.html";
     }
 
     // Initialize
+    displayTimeTaken();
     createReviewCards();
 </script>
 

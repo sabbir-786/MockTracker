@@ -1,369 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bank Practice - Answer Sheet</title>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        body {
-            background: #f7f7fb;
-            color: #151a3a;
-            padding-top: 60px; 
-            padding-bottom: 95px; 
-        }
-
-        /* =================================
-           FIXED FULL-SCREEN NAVBAR & TIMER
-        ================================= */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 60px;
-            background: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            border-bottom: 1px solid #eeeeF5;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-            z-index: 1000;
-        }
-        .navbar h2 {
-            font-size: 18px;
-            font-weight: 700;
-            color: #151a3a;
-        }
-
-        /* Default Timer (Green) */
-        .timer-box {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 16px;
-            font-weight: 700;
-            color: #16a34a; 
-            background: #e3f8ea;
-            padding: 6px 12px;
-            border-radius: 12px;
-            border: 1px solid #c9efd8;
-            transition: all 0.3s ease;
-        }
-        .timer-box.timer-overtime {
-            color: #dc2626;
-            background: #fff0f0;
-            border: 1px solid #ffd0d0;
-        }
-
-        /* =================================
-           MAIN APP CONTAINER
-        ================================= */
-        .app {
-            width: 100%;
-            max-width: 480px;
-            min-height: calc(100vh - 60px);
-            margin: auto;
-            background: white;
-            padding-bottom: 30px;
-        }
-
-        /* =================================
-           HEADER
-        ================================= */
-        .header {
-            display: flex;
-            align-items: center;
-            padding: 15px 20px 15px;
-            border-bottom: 1px dashed #eeeeF5;
-        }
-        .back-btn {
-            width: 42px;
-            height: 42px;
-            border: none;
-            background: transparent;
-            font-size: 32px;
-            color: #151a3a;
-            cursor: pointer;
-        }
-        .title-area {
-            flex: 1;
-            margin-left: 8px;
-        }
-        .title {
-            font-size: 21px;
-            font-weight: 700;
-        }
-        .subtitle {
-            margin-top: 5px;
-            color: #747895;
-            font-size: 14px;
-        }
-
-        /* =================================
-           SUMMARY CARD
-        ================================= */
-        .summary {
-            margin: 15px 16px;
-            border: 1px solid #e7e7f1;
-            border-radius: 18px;
-            overflow: hidden;
-            background: white;
-        }
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            padding: 20px 5px;
-        }
-        .stat {
-            text-align: center;
-            border-right: 1px solid #eeeeF5;
-        }
-        .stat:last-child {
-            border-right: none;
-        }
-        .stat-icon {
-            width: 38px;
-            height: 38px;
-            margin: auto;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            font-weight: bold;
-        }
-        .attempt-icon { background: #e3f8ea; color: #16a34a; }
-        .empty-icon { background: #ffe6e6; color: #dc2626; }
-        .progress-icon { background: #eee7ff; color: #6035d6; }
-        .stat-number { margin-top: 8px; font-size: 21px; font-weight: 700; }
-        .stat-label { margin-top: 3px; font-size: 12px; color: #737793; }
-
-        /* =================================
-           PROGRESS
-        ================================= */
-        .progress-section {
-            border-top: 1px solid #eeeeF5;
-            padding: 17px 20px;
-        }
-        .progress-heading {
-            display: flex;
-            justify-content: space-between;
-            font-size: 15px;
-            font-weight: 600;
-        }
-        .progress-bar {
-            width: 100%;
-            height: 9px;
-            background: #eeeeF6;
-            border-radius: 10px;
-            margin-top: 13px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: #6035d6;
-            border-radius: 10px;
-            transition: 0.3s;
-        }
-
-        /* =================================
-           QUESTIONS
-        ================================= */
-        .questions {
-            padding: 5px 16px;
-        }
-        .question-card {
-            border: 1px solid #e6e6f0;
-            border-radius: 15px;
-            margin-top: 12px;
-            padding: 16px;
-            background: white;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .question-number {
-            font-size: 19px;
-            font-weight: 700;
-            color: #6035d6;
-            min-width: 40px;
-        }
-        .radio-group {
-            display: flex;
-            gap: 8px;
-        }
-        .radio-label {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: 1px solid #d2d3df;
-            color: #737793;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            background: white;
-            font-size: 14px;
-        }
-        .radio-label input[type="radio"] { display: none; }
-        .radio-label.selected {
-            background: #6035d6;
-            border-color: #6035d6;
-            color: white;
-        }
-
-        /* =================================
-           FINISH AREA
-        ================================= */
-        .finish-area { padding: 20px 16px 0; }
-        .finish-btn {
-            width: 100%;
-            height: 55px;
-            border: none;
-            border-radius: 14px;
-            background: #6035d6;
-            color: white;
-            font-size: 17px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 8px 20px rgba(96, 53, 214, 0.2);
-        }
-        .finish-btn:active { transform: scale(0.98); }
-
-        /* =================================
-           BOTTOM NAVIGATION
-        ================================= */
-        .bottom {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 480px;
-            padding: 11px 16px;
-            background: white;
-            border-top: 1px solid #eeeeF5;
-            display: flex;
-            gap: 10px;
-            z-index: 10;
-        }
-        .nav-btn {
-            flex: 1;
-            height: 50px;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-        .previous { background: white; color: #6035d6; border: 2px solid #6035d6; }
-        .next { background: #6035d6; color: white; border: none; }
-
-        @media (min-width: 600px) {
-            body { padding-top: 80px; }
-            .app {
-                border-radius: 25px;
-                box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-                overflow: hidden;
-            }
-            .bottom { border-radius: 0 0 20px 20px; }
-        }
-    </style>
-</head>
-<body>
-
-<div class="navbar">
-    <h2>Bank Practice</h2>
-    <div class="timer-box" id="timerBox" style="display: none;">
-        ⏱ <span id="timerDisplay">00:00</span>
-    </div>
-</div>
-
-<div class="app">
-    <div class="header">
-        <button class="back-btn" onclick="goBack()">‹</button>
-        <div class="title-area">
-            <div class="title">Select Answers</div>
-            <div class="subtitle">
-                <span id="rangeDisplay">Q. 1 - 50</span> 
-                (<span id="totalQuestions">50</span> Questions)
-            </div>
-        </div>
-    </div>
-
-    <!-- SUMMARY -->
-    <div class="summary">
-        <div class="stats">
-            <div class="stat">
-                <div class="stat-icon attempt-icon">✓</div>
-                <div class="stat-number" id="attemptedCount">0</div>
-                <div class="stat-label">Attempted</div>
-            </div>
-            <div class="stat">
-                <div class="stat-icon empty-icon">−</div>
-                <div class="stat-number" id="unattemptedCount">50</div>
-                <div class="stat-label">Unattempted</div>
-            </div>
-            <div class="stat">
-                <div class="stat-icon progress-icon">◔</div>
-                <div class="stat-number" id="completedPercent">0%</div>
-                <div class="stat-label">Completed</div>
-            </div>
-        </div>
-
-        <div class="progress-section">
-            <div class="progress-heading">
-                <span>Progress</span>
-                <span>
-                    <span id="completedCount">0</span> / 
-                    <span id="progressTotal">50</span>
-                </span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- QUESTIONS -->
-    <div class="questions" id="questionsContainer">
-        <!-- Generated via JS -->
-    </div>
-
-    <!-- FINISH -->
-    <div class="finish-area">
-        <button class="finish-btn" onclick="finishPractice()">
-            ✓ &nbsp; Submit & Start Grading
-        </button>
-    </div>
-</div>
-
-<!-- BOTTOM NAVIGATION -->
-<div class="bottom">
-    <button class="nav-btn previous" onclick="previousQuestion()">‹ &nbsp; Previous</button>
-    <button class="nav-btn next" onclick="nextQuestion()">Next &nbsp; ›</button>
-</div>
-
 <script>
     const START_Q = parseInt(localStorage.getItem("startQuestion")) || 1;
     const END_Q = parseInt(localStorage.getItem("endQuestion")) || 10;
     const TOTAL_QUESTIONS = (END_Q - START_Q) + 1;
     
+    // Timer Setup
     const timeLimitMins = parseInt(localStorage.getItem("timeLimit")) || 0;
     const timerMode = localStorage.getItem("timerMode") || "negative";
     let timeRemaining = parseInt(localStorage.getItem("timeRemaining"));
+    let timeSpent = parseInt(localStorage.getItem("timeSpent")) || 0; // Tracks total time taken
     let timerInterval;
 
     let currentQuestion = START_Q;
@@ -373,28 +17,40 @@
     document.getElementById("totalQuestions").textContent = TOTAL_QUESTIONS;
     document.getElementById("progressTotal").textContent = TOTAL_QUESTIONS;
 
+    // Display the timer box only if a limit was set
     if (timeLimitMins > 0) {
         document.getElementById("timerBox").style.display = "flex";
         if (isNaN(timeRemaining)) {
             timeRemaining = timeLimitMins * 60;
         }
-        startTimer();
     }
 
+    // Start background tracking for ALL modes
     function startTimer() {
-        updateTimerDisplay();
+        if (timeLimitMins > 0) updateTimerDisplay();
+        
         timerInterval = setInterval(() => {
-            timeRemaining--;
-            localStorage.setItem("timeRemaining", timeRemaining);
-            updateTimerDisplay();
+            // Always track elapsed time
+            timeSpent++;
+            localStorage.setItem("timeSpent", timeSpent);
 
-            if (timeRemaining <= 0 && timerMode === "autosubmit") {
-                clearInterval(timerInterval);
-                alert("Time is up! Submitting your answers automatically.");
-                finishPractice();
+            // If time limit exists, manage the countdown
+            if (timeLimitMins > 0) {
+                timeRemaining--;
+                localStorage.setItem("timeRemaining", timeRemaining);
+                updateTimerDisplay();
+
+                if (timeRemaining <= 0 && timerMode === "autosubmit") {
+                    clearInterval(timerInterval);
+                    alert("Time is up! Submitting your answers automatically.");
+                    finishPractice();
+                }
             }
         }, 1000);
     }
+    
+    // Start it unconditionally
+    startTimer();
 
     function updateTimerDisplay() {
         let isOvertime = timeRemaining < 0;
@@ -432,7 +88,6 @@
                 </label>
             `).join('');
 
-            // Simplified Card: Only Number and Radios
             card.innerHTML = `
                 <div class="question-number">Q${i}.</div>
                 <div class="radio-group">
@@ -507,5 +162,3 @@
 
     createQuestions();
 </script>
-</body>
-</html>
